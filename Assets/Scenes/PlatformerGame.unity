@@ -172,6 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colli: {fileID: 376302066}
   speed: 7
+  damage: 50
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 55
@@ -42376,7 +42377,7 @@ GameObject:
   - component: {fileID: 857637469}
   m_Layer: 0
   m_Name: Enemy_Pig
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42488,8 +42489,11 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8
+  isRunning: 0
+  colli: {fileID: 857637468}
   speed: 5
   rayLength: 5
+  enemyHP: 100
   finishPoint: {x: 0, y: 0}
   destination: {x: 0, y: 0}
 --- !u!1 &940451730

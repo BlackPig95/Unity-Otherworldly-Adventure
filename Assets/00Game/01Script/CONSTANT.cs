@@ -6,6 +6,7 @@ public static class CONSTANT
 {
     public readonly static string groundTag = "Ground";
     public readonly static string horizontalInput = "Horizontal";
+    public readonly static string enemyTag = "Enemy";
      /* control player jump double jump wall jump slide, can pick player
       * enemy behaviour
       * map design: enemy, bonus, boss, stage pass, trap, player can shoot, UI, pick level, JSON firebase */

@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rigi;
     [SerializeField] Collider2D colli;
-    [SerializeField] float speed;
+    [SerializeField] float speed, damage = 50f;
     [SerializeField] LayerMask playerLayerMask;
     Vector2 movement = Vector2.zero;
     [SerializeField] float jumpForce;
@@ -146,9 +146,20 @@ public class PlayerController : MonoBehaviour
             return;
         }
     }
-    private void OnCollisionStay2D(Collision2D collision) //Collision Enter will cause bug 3 times jump when in corner
+    private void OnCollisionStay2D(Collision2D _collision) //Collision Enter will cause bug 3 times jump when in corner
     {
         GroundCheck();
+    }
+    private void OnCollisionEnter2D(Collision2D _collision)
+    {
+        if (GroundCheck())
+            return;
+        if (_collision.collider.CompareTag(CONSTANT.enemyTag))
+        {
+            ICanGetHit isCanGetHit = _collision.gameObject.GetComponent<ICanGetHit>();
+            isCanGetHit.GetHit(this.damage); // Must detect enemy from raycast
+        }
+
     }
     bool DetectWall()
     {
@@ -174,12 +185,12 @@ public class PlayerController : MonoBehaviour
 
             //Wall slide
 
-            if (rightRay.collider != null)
+            if (rightRay.collider != null && rightRay.collider.CompareTag(CONSTANT.groundTag))
             {
                 canDoubleJump = true;
                 return true;
             }
-            if (leftRay.collider != null) // Bug fall fast when press key to opposite direction
+            if (leftRay.collider != null && leftRay.collider.CompareTag(CONSTANT.groundTag)) // Bug fall fast when release key
             {
                 canDoubleJump = true;
                 return true;
@@ -187,13 +198,13 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
-    void GroundCheck()
+    bool GroundCheck()
     {
         float castRangeGround = colli.bounds.size.y / 2 + 0.02f;
         int rayCount = 5;
         float stepX = this.colli.bounds.size.x / (rayCount - 1);
         float xPos = this.transform.position.x - colli.bounds.size.x / 2;
-        for (int i = 0; i < rayCount; i++)
+        for (int i = 1; i < rayCount-1; i++)
         {
             Vector2 castPosX = new Vector2(xPos + i * stepX, this.transform.position.y);
             RaycastHit2D groundCheck = Physics2D.Raycast(castPosX, Vector2.down, castRangeGround, playerLayerMask);
@@ -201,14 +212,16 @@ public class PlayerController : MonoBehaviour
             {
                 isGrounded = false; //Avoid bug stuck to wall when fall off platform
                 isJumping = true;
-                return;
+                return false;
             } // Avoid colliding with player null ref exception
             if (groundCheck.collider.gameObject.CompareTag(CONSTANT.groundTag))
             {
                 isGrounded = true;
                 canDoubleJump = true; //Allow Player jump once when fall off platform
+                return true;
             }
         }
+        return false;
     }
     bool WallSlide()
     {
@@ -237,7 +250,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Show Raycast Vertically
-        for (int i = 0; i < rayCount; i++)
+        for (int i = 1; i < rayCount -1; i++)
         {
             float castRangeGround = colli.bounds.size.y / 2 + 0.02f;
             float stepX = this.colli.bounds.size.x / (rayCount - 1);
