@@ -79,7 +79,6 @@ public class EnemyController : MonoBehaviour, ICanGetHit
                 isRunning = true;
             else isRunning = false;
         }
-
     }
     void SetEnemyState()
     {
@@ -89,7 +88,7 @@ public class EnemyController : MonoBehaviour, ICanGetHit
         if(isGettingHit)
             enemyState = EnemyState.Hit;
     }
-    public void HitAnimEvent(string name)
+    public void HitAnimEvent(string name) //Attached to event action
     {
         if(name == CONSTANT.hitEnemyEvent)
         {
