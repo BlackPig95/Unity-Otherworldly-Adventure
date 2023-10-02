@@ -7,13 +7,14 @@ public enum PlayerState
 {
     Idle,
     Run,
+    Hit,
     DoubleJump,
     WallSlide,
     Jump,
 }
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ICanGetHit
 {
     Rigidbody2D rigi;
     [SerializeField] Collider2D colli;
@@ -21,10 +22,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask playerLayerMask;
     Vector2 movement = Vector2.zero;
     [SerializeField] float jumpForce;
-    [SerializeField]
-    bool canDoubleJump = false, isGrounded = true,
+    [SerializeField] bool canDoubleJump = false, isGrounded = true, isGettingHit = false,
         isJumping = false, isDoubleJumping = false, isWallSliding = false;
     float wallJumpCounter = 0f;
+    int playerHP = 3;
     [SerializeField] PlayerState playerState = PlayerState.Idle;
     AnimationController playerAnimationController;
 
@@ -34,6 +35,15 @@ public class PlayerController : MonoBehaviour
         rigi = this.GetComponent<Rigidbody2D>();
         colli = this.GetComponent<Collider2D>();
         playerAnimationController = this.GetComponentInChildren<AnimationController>();
+        playerAnimationController.eventAnim += (name) =>
+        {
+            if (name == CONSTANT.hitEvent)
+            {
+                isGettingHit = false;
+                Debug.Log(playerState.ToString());
+            }
+
+        };
     }
 
     // Update is called once per frame
@@ -59,6 +69,13 @@ public class PlayerController : MonoBehaviour
     }
     void SetPlayerState()
     {
+        if (isGettingHit)
+        {
+            playerState = PlayerState.Hit;
+            Debug.Log(isGettingHit);
+            Debug.Log(playerState.ToString());
+            return;
+        }
         if (isGrounded)
         {
             isJumping = false;
@@ -107,10 +124,12 @@ public class PlayerController : MonoBehaviour
     }
     float RotatePlayer()
     {
-        Vector2 scale = Vector2.one;
         if (Input.GetAxisRaw(CONSTANT.horizontalInput) != 0)
+        {
+            Vector2 scale = Vector2.one;
             scale.x *= Input.GetAxisRaw(CONSTANT.horizontalInput);
-        this.transform.localScale = scale;
+            this.transform.localScale = scale;
+        }
         return this.transform.localScale.x;
     }
     void Jump()
@@ -140,7 +159,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rigi.AddForce(new Vector2(1500f * -RotatePlayer(), 550f)); //Force mode Impulse can't work??
+            rigi.AddForce(new Vector2(1500f * -this.transform.localScale.x, 550f)); //Force mode Impulse can't work??
             wallJumpCounter = 0.2f;
             isJumping = true;
             return;
@@ -276,5 +295,13 @@ public class PlayerController : MonoBehaviour
             Gizmos.color = Color.blue;
             Gizmos.DrawRay(castPosX, Vector2.down * castRangeGround);
         }
+    }
+
+    public void GetHit(float damage)
+    {
+        this.playerHP -= (int)damage;
+        isGettingHit = true;
+        rigi.AddForce(new Vector2(1000f * -this.transform.localScale.x, 300f));
+        Debug.Log(playerHP);
     }
 }

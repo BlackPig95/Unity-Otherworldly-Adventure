@@ -179,6 +179,7 @@ MonoBehaviour:
   jumpForce: 7
   canDoubleJump: 0
   isGrounded: 1
+  isGettingHit: 0
   isJumping: 0
   isDoubleJumping: 0
   isWallSliding: 0

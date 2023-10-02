@@ -20,6 +20,7 @@ public class EnemyController : MonoBehaviour, ICanGetHit
     AnimationController enemyAnimationController;
     [SerializeField] Collider2D colli;
     [SerializeField] float speed = 5.0f, rayLength = 5.0f, enemyHP = 100f;
+    int damage = 1;
     [SerializeField] Vector2 finishPoint = Vector2.zero, destination = Vector2.zero;
     float currentHP;
     // Start is called before the first frame update
@@ -80,6 +81,35 @@ public class EnemyController : MonoBehaviour, ICanGetHit
             else isRunning = false;
         }
     }
+    void AttackPlayer()
+    {
+        int rayAtkCount = 7;
+        float stepAtkY = this.colli.bounds.size.y / (rayAtkCount - 1);
+        float yPos = this.transform.position.y - this.colli.bounds.size.y / 2;
+        float atkCastRange = colli.bounds.size.x / 2 + 0.1f;
+        for (int i = 1; i < rayAtkCount-1; i++)
+        {
+            Vector2 castPosY = new Vector2(this.transform.position.x, yPos + i * stepAtkY);
+            RaycastHit2D leftRay = Physics2D.Raycast(castPosY, Vector2.left, atkCastRange, layerMask);
+            RaycastHit2D rightRay = Physics2D.Raycast(castPosY, Vector2.right, atkCastRange, layerMask);
+            if (leftRay.collider != null)
+            {
+                ICanGetHit isGetHit = leftRay.collider.GetComponent<ICanGetHit>();
+                isGetHit.GetHit(this.damage);
+                return;
+            }
+            if (rightRay.collider != null)
+            {
+                ICanGetHit isGetHit = rightRay.collider.GetComponent<ICanGetHit>();
+                isGetHit.GetHit(this.damage);
+                return;
+            }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        AttackPlayer();
+    }
     void SetEnemyState()
     {
         if (isRunning)
@@ -90,7 +120,7 @@ public class EnemyController : MonoBehaviour, ICanGetHit
     }
     public void HitAnimEvent(string name) //Attached to event action
     {
-        if(name == CONSTANT.hitEnemyEvent)
+        if(name == CONSTANT.hitEvent)
         {
             isGettingHit = false;
             enemyState = EnemyState.Walk;
@@ -123,6 +153,18 @@ public class EnemyController : MonoBehaviour, ICanGetHit
             Vector2 castPosY = new Vector2(this.transform.position.x, yPos + i * stepY);
             Gizmos.color = Color.red;
             Gizmos.DrawRay(castPosY, destination.normalized * rayLength);
+        }
+
+        int rayAtkCount = 7;
+        float stepAtkY = this.colli.bounds.size.y / (rayAtkCount - 1);
+        float atkCastRange = colli.bounds.size.x / 2 + 0.1f;
+        for (int i = 1; i < rayAtkCount-1; i++)
+        {
+            Vector2 castPosY = new Vector2(this.transform.position.x, yPos + i * stepAtkY);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(castPosY, Vector2.left * atkCastRange);
+            Gizmos.DrawRay(castPosY, Vector2.right * atkCastRange);
+
         }
     }
 
