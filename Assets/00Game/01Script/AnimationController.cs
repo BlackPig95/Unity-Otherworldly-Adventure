@@ -35,4 +35,5 @@ public class AnimationController : MonoBehaviour
             else animator.SetBool(((EnemyState)i).ToString(), false);
         }
     }
+ 
 }

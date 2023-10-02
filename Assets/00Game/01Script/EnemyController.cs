@@ -16,11 +16,12 @@ public class EnemyController : MonoBehaviour, ICanGetHit
     [SerializeField] LayerMask layerMask;
     Rigidbody2D rigi;
     EnemyState enemyState = EnemyState.Walk;
-    [SerializeField] bool isRunning = false;
+    [SerializeField] bool isRunning = false, isGettingHit = false;
     AnimationController enemyAnimationController;
     [SerializeField] Collider2D colli;
     [SerializeField] float speed = 5.0f, rayLength = 5.0f, enemyHP = 100f;
     [SerializeField] Vector2 finishPoint = Vector2.zero, destination = Vector2.zero;
+    float currentHP;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +31,7 @@ public class EnemyController : MonoBehaviour, ICanGetHit
         endPoint.transform.parent = null;
         finishPoint = startPoint.transform.position;
         enemyAnimationController = this.GetComponentInChildren<AnimationController>();
+        currentHP = this.enemyHP;
     }
 
     // Update is called once per frame
@@ -83,12 +85,28 @@ public class EnemyController : MonoBehaviour, ICanGetHit
         if (isRunning)
             enemyState = EnemyState.Run;
         else enemyState = EnemyState.Walk;
+        if(isGettingHit)
+            enemyState = EnemyState.Hit;
+    }
+    public void HitAnimEvent()
+    {
+        enemyState = EnemyState.Walk;
     }
     void RotateEnemy()
     {
         Vector2 scale = Vector2.one;
         scale.x = -destination.normalized.x;
         this.transform.localScale = scale;
+    }
+    public void GetHit(float damage)
+    {
+        this.enemyHP -= damage;
+        Debug.Log("Enemy HP + " + enemyHP);
+        if(this.enemyHP < currentHP)
+        {
+            currentHP = this.enemyHP;
+            isGettingHit = true;
+        }
     }
     private void OnDrawGizmosSelected()
     {
@@ -103,9 +121,5 @@ public class EnemyController : MonoBehaviour, ICanGetHit
         }
     }
 
-    public void GetHit(float damage)
-    {
-        this.enemyHP -= damage;
-        Debug.Log("Enemy HP " + this.enemyHP);
-    }
+  
 }

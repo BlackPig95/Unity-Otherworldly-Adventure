@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 376302065}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colli: {fileID: 376302066}
   speed: 7
-  damage: 50
+  damage: 100
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 55
@@ -42425,7 +42425,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &857637468
 BoxCollider2D:
@@ -42490,6 +42490,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   isRunning: 0
+  isGettingHit: 0
   colli: {fileID: 857637468}
   speed: 5
   rayLength: 5

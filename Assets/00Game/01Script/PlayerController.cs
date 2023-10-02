@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rigi;
     [SerializeField] Collider2D colli;
-    [SerializeField] float speed, damage = 50f;
+    [SerializeField] float speed, damage = 100f;
     [SerializeField] LayerMask playerLayerMask;
     Vector2 movement = Vector2.zero;
     [SerializeField] float jumpForce;
@@ -146,20 +146,37 @@ public class PlayerController : MonoBehaviour
             return;
         }
     }
-    private void OnCollisionStay2D(Collision2D _collision) //Collision Enter will cause bug 3 times jump when in corner
+    private void OnCollisionStay2D(Collision2D _collision) //Collision Enter will cause bug when in corner
     {
         GroundCheck();
     }
     private void OnCollisionEnter2D(Collision2D _collision)
     {
-        if (GroundCheck())
-            return;
-        if (_collision.collider.CompareTag(CONSTANT.enemyTag))
+        DetectEnemy();
+    }
+    void DetectEnemy()
+    {
+        float castRangeGround = colli.bounds.size.y / 2 + 0.02f;
+        int rayCount = 5;
+        float stepX = this.colli.bounds.size.x / (rayCount - 1);
+        float xPos = this.transform.position.x - colli.bounds.size.x / 2;
+        for (int i = 0; i < rayCount; i++)
         {
-            ICanGetHit isCanGetHit = _collision.gameObject.GetComponent<ICanGetHit>();
-            isCanGetHit.GetHit(this.damage); // Must detect enemy from raycast
+            Vector2 castPosX = new Vector2(xPos + i * stepX, this.transform.position.y);
+            RaycastHit2D detectEnemyRay = Physics2D.Raycast(castPosX, Vector2.down, castRangeGround, playerLayerMask);
+            if (detectEnemyRay.collider == null)
+                continue; //Avoid bug null ref collide with player's self
+            if (!detectEnemyRay.collider.CompareTag(CONSTANT.enemyTag))
+                continue; //Avoid bug collide with wall + bug when first ray miss enemy
+            if (detectEnemyRay.collider != null)
+            {
+                ICanGetHit isGetHit = detectEnemyRay.collider.GetComponent<ICanGetHit>();
+                isGetHit.GetHit(this.damage);
+                rigi.AddForce(new Vector2(0f, 200f));
+                return; //Avoid bug cause damage multiple times
+            }
         }
-
+       
     }
     bool DetectWall()
     {
