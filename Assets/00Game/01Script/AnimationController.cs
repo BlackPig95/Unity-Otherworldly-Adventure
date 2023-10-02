@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     Animator animator;
+    public Action<string> eventAnim { get; set; }
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +36,10 @@ public class AnimationController : MonoBehaviour
                 animator.SetBool(_enemyState.ToString(), true);
             else animator.SetBool(((EnemyState)i).ToString(), false);
         }
+    }
+    public void CallEvent(string eventName)
+    {
+        eventAnim?.Invoke(eventName);
     }
  
 }

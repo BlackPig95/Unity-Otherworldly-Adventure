@@ -32,6 +32,7 @@ public class EnemyController : MonoBehaviour, ICanGetHit
         finishPoint = startPoint.transform.position;
         enemyAnimationController = this.GetComponentInChildren<AnimationController>();
         currentHP = this.enemyHP;
+        enemyAnimationController.eventAnim += HitAnimEvent;
     }
 
     // Update is called once per frame
@@ -88,9 +89,14 @@ public class EnemyController : MonoBehaviour, ICanGetHit
         if(isGettingHit)
             enemyState = EnemyState.Hit;
     }
-    public void HitAnimEvent()
+    public void HitAnimEvent(string name)
     {
-        enemyState = EnemyState.Walk;
+        if(name == CONSTANT.hitEnemyEvent)
+        {
+            isGettingHit = false;
+            enemyState = EnemyState.Walk;
+            Debug.Log(name);
+        }
     }
     void RotateEnemy()
     {
@@ -101,7 +107,7 @@ public class EnemyController : MonoBehaviour, ICanGetHit
     public void GetHit(float damage)
     {
         this.enemyHP -= damage;
-        Debug.Log("Enemy HP + " + enemyHP);
+        Debug.Log("Enemy HP " + enemyHP);
         if(this.enemyHP < currentHP)
         {
             currentHP = this.enemyHP;
