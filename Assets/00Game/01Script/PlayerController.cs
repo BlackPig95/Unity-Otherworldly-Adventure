@@ -22,9 +22,11 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     [SerializeField] LayerMask playerLayerMask;
     Vector2 movement = Vector2.zero;
     [SerializeField] float jumpForce;
-    [SerializeField] bool canDoubleJump = false, isGrounded = true, isGettingHit = false,
+    [SerializeField]
+    bool canDoubleJump = false, isGrounded = true, isGettingHit = false,
         isJumping = false, isDoubleJumping = false, isWallSliding = false;
     float wallJumpCounter = 0f;
+    bool isInvicible = false;
     int playerHP = 3;
     [SerializeField] PlayerState playerState = PlayerState.Idle;
     AnimationController playerAnimationController;
@@ -40,9 +42,9 @@ public class PlayerController : MonoBehaviour, ICanGetHit
             if (name == CONSTANT.hitEvent)
             {
                 isGettingHit = false;
-                Debug.Log(playerState.ToString());
+                isInvicible = false;
+                this.gameObject.layer = 3;
             }
-
         };
     }
 
@@ -72,8 +74,6 @@ public class PlayerController : MonoBehaviour, ICanGetHit
         if (isGettingHit)
         {
             playerState = PlayerState.Hit;
-            Debug.Log(isGettingHit);
-            Debug.Log(playerState.ToString());
             return;
         }
         if (isGrounded)
@@ -190,12 +190,15 @@ public class PlayerController : MonoBehaviour, ICanGetHit
             if (detectEnemyRay.collider != null)
             {
                 ICanGetHit isGetHit = detectEnemyRay.collider.GetComponent<ICanGetHit>();
-                isGetHit.GetHit(this.damage);
-                rigi.AddForce(new Vector2(0f, 200f));
+                if(isGetHit != null)
+                {
+                    isGetHit.GetHit(this.damage);
+                    rigi.AddForce(new Vector2(0f, 200f));
+                }
                 return; //Avoid bug cause damage multiple times
             }
         }
-       
+
     }
     bool DetectWall()
     {
@@ -210,7 +213,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
         float castRangeY = colli.bounds.size.x / 2 + outOfBound;
         float stepY = this.colli.bounds.size.y / (rayCount - 1);
         float yPos = this.transform.position.y - colli.bounds.size.y / 2;
-        for (int i = 1; i < rayCount - 1; i++)
+        for (int i = 0; i < rayCount; i++)
         {
             Vector2 castPosY = new Vector2(this.transform.position.x, yPos + i * stepY);
             //Raycast to the right
@@ -240,7 +243,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
         int rayCount = 5;
         float stepX = this.colli.bounds.size.x / (rayCount - 1);
         float xPos = this.transform.position.x - colli.bounds.size.x / 2;
-        for (int i = 1; i < rayCount-1; i++)
+        for (int i = 1; i < rayCount - 1; i++)
         {
             Vector2 castPosX = new Vector2(xPos + i * stepX, this.transform.position.y);
             RaycastHit2D groundCheck = Physics2D.Raycast(castPosX, Vector2.down, castRangeGround, playerLayerMask);
@@ -263,7 +266,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     {
         if (!DetectWall())
             return false;
-      
+
         rigi.velocity = new Vector2(0f, -4f);
         return true;
 
@@ -272,7 +275,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     {
         int rayCount = 5;
         float outOfBound = 0.1f;
-        for (int i = 1; i < rayCount - 1; i++)
+        for (int i = 0; i < rayCount; i++)
         {
             //Show Raycast Horizontally
             float stepY = this.colli.bounds.size.y / (rayCount - 1);
@@ -286,7 +289,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
         }
 
         // Show Raycast Vertically
-        for (int i = 1; i < rayCount -1; i++)
+        for (int i = 1; i < rayCount - 1; i++)
         {
             float castRangeGround = colli.bounds.size.y / 2 + 0.02f;
             float stepX = this.colli.bounds.size.x / (rayCount - 1);
@@ -299,9 +302,15 @@ public class PlayerController : MonoBehaviour, ICanGetHit
 
     public void GetHit(float damage)
     {
+        if (isInvicible)
+            return;
+
         this.playerHP -= (int)damage;
         isGettingHit = true;
-        rigi.AddForce(new Vector2(1000f * -this.transform.localScale.x, 300f));
+        rigi.velocity = Vector2.zero;
+        rigi.AddForce(new Vector2(0f, 200f));
         Debug.Log(playerHP);
+        isInvicible = true;
+        this.gameObject.layer = 4;
     }
 }

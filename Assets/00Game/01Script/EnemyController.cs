@@ -167,6 +167,4 @@ public class EnemyController : MonoBehaviour, ICanGetHit
 
         }
     }
-
-  
 }
