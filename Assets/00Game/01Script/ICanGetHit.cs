@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ICanGetHit 
 {
-    void GetHit(float damage);
+    void GetHit(int damage);
 }

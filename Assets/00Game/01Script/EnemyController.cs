@@ -19,8 +19,8 @@ public class EnemyController : MonoBehaviour, ICanGetHit
     [SerializeField] bool isRunning = false, isGettingHit = false;
     AnimationController enemyAnimationController;
     [SerializeField] Collider2D colli;
-    [SerializeField] float speed = 5.0f, rayLength = 5.0f, enemyHP = 100f;
-    int damage = 1;
+    [SerializeField] float speed = 5.0f, rayLength = 5.0f;
+    int damage = 1, enemyHP = 100;
     [SerializeField] Vector2 finishPoint = Vector2.zero, destination = Vector2.zero;
     float currentHP;
     // Start is called before the first frame update
@@ -133,7 +133,7 @@ public class EnemyController : MonoBehaviour, ICanGetHit
         scale.x = -destination.normalized.x;
         this.transform.localScale = scale;
     }
-    public void GetHit(float damage)
+    public void GetHit(int damage)
     {
         this.enemyHP -= damage;
         Debug.Log("Enemy HP " + enemyHP);

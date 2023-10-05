@@ -18,7 +18,7 @@ public class TrapController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();
+        TrapMovement();
     }
     private void FixedUpdate()
     {
@@ -26,13 +26,13 @@ public class TrapController : MonoBehaviour
     void AttackPlayer(Collision2D collision)
     {
         ICanGetHit isGetHit = collision.collider.GetComponent<ICanGetHit>();
-        isGetHit.GetHit((float)this.damage);
+        isGetHit.GetHit(this.damage);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         AttackPlayer(collision);
     }
-    void Movement()
+    void TrapMovement()
     {
         this.transform.Translate(speed * Time.deltaTime * Vector2.right);
 
@@ -52,12 +52,10 @@ public class TrapController : MonoBehaviour
         if (detectGroundLeft.collider == null)
         {
             movingRight = true;
-            Debug.Log("Left");
         }
         else if (detectGroundRight.collider == null)
         {
             movingRight = false;
-            Debug.Log("Right");
         }
     }
     private void OnDrawGizmosSelected()

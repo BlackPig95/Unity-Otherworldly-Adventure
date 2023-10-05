@@ -18,7 +18,8 @@ public class PlayerController : MonoBehaviour, ICanGetHit
 {
     Rigidbody2D rigi;
     [SerializeField] Collider2D colli;
-    [SerializeField] float speed, damage = 100f;
+    [SerializeField] float speed = 7.0f;
+    int damage = 100;
     [SerializeField] LayerMask playerLayerMask;
     Vector2 movement = Vector2.zero;
     [SerializeField] float jumpForce;
@@ -300,12 +301,12 @@ public class PlayerController : MonoBehaviour, ICanGetHit
         }
     }
 
-    public void GetHit(float damage)
+    public void GetHit(int damage)
     {
         if (isInvicible)
             return;
 
-        this.playerHP -= (int)damage;
+        this.playerHP -= damage;
         isGettingHit = true;
         rigi.velocity = Vector2.zero;
         rigi.AddForce(new Vector2(0f, 200f));
