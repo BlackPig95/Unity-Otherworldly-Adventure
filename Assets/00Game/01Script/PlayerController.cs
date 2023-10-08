@@ -166,14 +166,13 @@ public class PlayerController : MonoBehaviour, ICanGetHit
             return;
         }
     }
-    private void OnCollisionStay2D(Collision2D _collision) //Collision Enter will cause bug can't reset isGrounded
+    private void OnCollisionStay2D(Collision2D _collision) //Collision Enter will cause bug when in corner
     {
-      // GroundCheck();
+        GroundCheck();
     }
     private void OnCollisionEnter2D(Collision2D _collision)
     {
         DetectEnemy();
-        GroundCheck();
     }
     void DetectEnemy()
     {
