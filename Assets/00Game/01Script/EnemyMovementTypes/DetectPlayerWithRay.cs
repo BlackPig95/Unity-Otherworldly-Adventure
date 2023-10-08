@@ -15,13 +15,14 @@ public class DetectPlayerWithRay : MonoBehaviour
     }
     public bool DetectPlayer()
     {
+        int direction = (int) Mathf.Sign(transform.rotation.y); //Raycast always go to front
         int rayCount = 3;
         float stepY = this.colli.bounds.size.y / (rayCount - 1);
         float yPos = this.transform.position.y - this.colli.bounds.size.y / 2;
         for (int i = 0; i < rayCount; i++)
         {
             Vector2 castPosY = new Vector2(this.transform.position.x, yPos + i * stepY);
-            RaycastHit2D detectRay = Physics2D.Raycast(castPosY, castDir * transform.localScale.x, rayLength, layerMask);
+            RaycastHit2D detectRay = Physics2D.Raycast(castPosY, castDir * transform.localScale.x * direction, rayLength, layerMask);
             if (detectRay.collider != null)
                 isRunning = true;
             else isRunning = false;
@@ -30,6 +31,7 @@ public class DetectPlayerWithRay : MonoBehaviour
     }
     private void OnDrawGizmosSelected()
     {
+        int direction = (int)Mathf.Sign(transform.rotation.y);
         int rayCount = 3;
         float stepY = this.colli.bounds.size.y / (rayCount - 1);
         float yPos = this.transform.position.y - this.colli.bounds.size.y / 2;
@@ -37,9 +39,7 @@ public class DetectPlayerWithRay : MonoBehaviour
         {
             Vector2 castPosY = new Vector2(this.transform.position.x, yPos + i * stepY);
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(castPosY, castDir.normalized * transform.localScale.x * rayLength);
+            Gizmos.DrawRay(castPosY, castDir.normalized * transform.localScale.x * rayLength * direction); //Raycast always go to front
         }
-
-
     }
 }

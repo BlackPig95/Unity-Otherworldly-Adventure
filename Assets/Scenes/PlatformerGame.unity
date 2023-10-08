@@ -45355,6 +45355,7 @@ GameObject:
   - component: {fileID: 2075553677}
   - component: {fileID: 2075553676}
   - component: {fileID: 2075553682}
+  - component: {fileID: 2075553683}
   m_Layer: 6
   m_Name: Enemy_Rino
   m_TagString: Enemy
@@ -45433,7 +45434,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
 --- !u!50 &2075553680
 Rigidbody2D:
@@ -45491,3 +45492,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colli: {fileID: 2075553678}
+--- !u!114 &2075553683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075553675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6080d116f4404f74cb3265c8fcafcf49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colli: {fileID: 2075553678}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8

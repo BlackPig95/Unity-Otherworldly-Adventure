@@ -12,6 +12,8 @@ public class EnemyControllerWithRay : MonoBehaviour
     [SerializeField] Collider2D colli;
     Rigidbody2D rigi;
     int turnBack = 1;
+    bool isRunning = false;
+    DetectPlayerWithRay detectPlayer;
 
     private void Awake()
     {
@@ -20,6 +22,7 @@ public class EnemyControllerWithRay : MonoBehaviour
         enemyRayDown = this.GetComponent<EnemyRayDown>();
         atkPlayerRay = this.GetComponent<AtkPlayerWithRay>();
         rigi = this.GetComponent<Rigidbody2D>();
+        detectPlayer = this.GetComponent<DetectPlayerWithRay>();
     }
     void Update()
     {
@@ -32,8 +35,7 @@ public class EnemyControllerWithRay : MonoBehaviour
     void EnemyRayMovement()
     {
         movingRight = enemyRayDown.EnemyDetectGround();
-        rigi.velocity = speed * Vector2.left * turnBack;
-
+        isRunning = detectPlayer.DetectPlayer();
         if (!movingRight)
         {
             this.transform.eulerAngles = Vector3.zero;
@@ -41,9 +43,16 @@ public class EnemyControllerWithRay : MonoBehaviour
         }
         else
         {
-            this.transform.eulerAngles = new Vector3(0, 180, 0);
+            this.transform.eulerAngles = new Vector3(0, -180, 0); //The rotation is reversed??
             turnBack = -1;
         }
+        if (isRunning)
+        {
+            rigi.velocity = speed * Vector2.left * turnBack * 2;
+            return;
+        }
+        rigi.velocity = speed * Vector2.left * turnBack;
+
     }
     private void OnDrawGizmosSelected()
     {
