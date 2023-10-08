@@ -8,11 +8,13 @@ public class EnemyAnimationController : MonoBehaviour
     EnemyState enemyState = EnemyState.Walk;
     bool isRunning = false;
     public bool isGettingHit = false;
+    DetectPlayerWithRay detectPlayerWithRay;
     // Start is called before the first frame update
     void Start()
     {
         animationController = this.GetComponentInChildren<AnimationController>();
         animationController.eventAnim += HitAnimEvent;
+        detectPlayerWithRay = this.GetComponentInParent<DetectPlayerWithRay>();
     }
 
     // Update is called once per frame
@@ -20,7 +22,7 @@ public class EnemyAnimationController : MonoBehaviour
     {
         animationController.UpdateEnemyAnim(enemyState);
         SetEnemyState();
-
+        isRunning = detectPlayerWithRay.DetectPlayer();
     }
     public void HitAnimEvent(string name) //Attached to event action
     {
