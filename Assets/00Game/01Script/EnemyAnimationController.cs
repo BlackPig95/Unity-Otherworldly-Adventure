@@ -22,6 +22,7 @@ public class EnemyAnimationController : MonoBehaviour
     {
         animationController.UpdateEnemyAnim(enemyState);
         SetEnemyState();
+        if(detectPlayerWithRay != null) 
         isRunning = detectPlayerWithRay.DetectPlayer();
     }
     public void HitAnimEvent(string name) //Attached to event action

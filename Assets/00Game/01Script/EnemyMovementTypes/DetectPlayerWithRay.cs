@@ -13,6 +13,7 @@ public class DetectPlayerWithRay : MonoBehaviour
     private void Awake()
     {
         colli = this.GetComponent<Collider2D>();
+        layerMask = LayerMask.GetMask(CONSTANT.playerPhysicsLayer);
     }
     public bool DetectPlayer()
     {
