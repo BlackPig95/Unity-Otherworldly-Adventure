@@ -12,7 +12,6 @@ public enum EnemyState
 }
 public class EnemyController : MonoBehaviour, ICanGetHit
 {
-    [SerializeField] GameObject startPoint, endPoint;
     [SerializeField] LayerMask layerMask;
     Rigidbody2D rigi;
     EnemyState enemyState = EnemyState.Walk;
@@ -21,16 +20,15 @@ public class EnemyController : MonoBehaviour, ICanGetHit
     [SerializeField] Collider2D colli;
     [SerializeField] float speed = 5.0f, rayLength = 5.0f;
     int damage = 1, enemyHP = 100;
-    [SerializeField] Vector2 finishPoint = Vector2.zero, destination = Vector2.zero;
+    Vector2 destination = Vector2.zero;
     float currentHP;
+    SetEnemyDestination setDestin;
     // Start is called before the first frame update
     void Start()
     {
+        setDestin = this.GetComponent<SetEnemyDestination>();
         rigi = this.GetComponent<Rigidbody2D>();
         colli = this.GetComponent<Collider2D>();
-        startPoint.transform.parent = null;
-        endPoint.transform.parent = null;
-        finishPoint = startPoint.transform.position;
         enemyAnimationController = this.GetComponentInChildren<AnimationController>();
         currentHP = this.enemyHP;
         enemyAnimationController.eventAnim += HitAnimEvent;
@@ -51,21 +49,13 @@ public class EnemyController : MonoBehaviour, ICanGetHit
 
     void EnemyMovement()
     {
-        if (Vector2.Distance(finishPoint, this.transform.position) <= 0.1f)
-        {
-            if (finishPoint == (Vector2)startPoint.transform.position)
-                finishPoint = endPoint.transform.position;
-            else finishPoint = startPoint.transform.position;
-        }
-        destination = finishPoint - (Vector2)this.transform.position;
+        destination = setDestin.SetDestin() - (Vector2)this.transform.position;
         if (!isRunning)
         {
             rigi.velocity = destination.normalized * speed; //Bug finish point can't change when move too fast
             return;
         }
         rigi.velocity = destination.normalized * speed * 2;
-
-
     }
     void DetectPlayer()
     {
