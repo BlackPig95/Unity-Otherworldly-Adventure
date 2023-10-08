@@ -12,38 +12,31 @@ public enum EnemyState
 }
 public class EnemyController : MonoBehaviour, ICanGetHit
 {
-    [SerializeField] LayerMask layerMask;
     Rigidbody2D rigi;
-    EnemyState enemyState = EnemyState.Walk;
-    [SerializeField] bool isRunning = false, isGettingHit = false;
-    AnimationController enemyAnimationController;
-    [SerializeField] Collider2D colli;
+    [SerializeField] bool isRunning = false;
     [SerializeField] float speed = 5.0f;
     int damage = 1, enemyHP = 100;
     Vector2 destination = Vector2.zero;
-    float currentHP;
+    int currentHP;
     SetEnemyDestination setDestin;
     AtkPlayerWithRay atkPlayerRay;
     DetectPlayerWithRay detectPlayer;
+    EnemyAnimationController enemyAnimationController;
     // Start is called before the first frame update
     void Start()
     {
         atkPlayerRay = GetComponent<AtkPlayerWithRay>();
         setDestin = this.GetComponent<SetEnemyDestination>();
         rigi = this.GetComponent<Rigidbody2D>();
-        colli = this.GetComponent<Collider2D>();
-        enemyAnimationController = this.GetComponentInChildren<AnimationController>();
         currentHP = this.enemyHP;
-        enemyAnimationController.eventAnim += HitAnimEvent;
         detectPlayer = this.GetComponent<DetectPlayerWithRay>();
+        enemyAnimationController = this.GetComponentInChildren<EnemyAnimationController>();
     }
 
     // Update is called once per frame
     void Update()
     {
         RotateEnemy();
-        SetEnemyState();
-        enemyAnimationController.UpdateEnemyAnim(enemyState);
     }
     private void FixedUpdate()
     {
@@ -67,23 +60,8 @@ public class EnemyController : MonoBehaviour, ICanGetHit
     {
        atkPlayerRay.AttackPlayer(this.damage);
     }
-    void SetEnemyState()
-    {
-        if (isRunning)
-            enemyState = EnemyState.Run;
-        else enemyState = EnemyState.Walk;
-        if(isGettingHit)
-            enemyState = EnemyState.Hit;
-    }
-    public void HitAnimEvent(string name) //Attached to event action
-    {
-        if(name == CONSTANT.hitEvent)
-        {
-            isGettingHit = false;
-            enemyState = EnemyState.Walk;
-            Debug.Log(name);
-        }
-    }
+   
+  
     void RotateEnemy()
     {
         Vector2 scale = Vector2.one;
@@ -97,7 +75,7 @@ public class EnemyController : MonoBehaviour, ICanGetHit
         if(this.enemyHP < currentHP)
         {
             currentHP = this.enemyHP;
-            isGettingHit = true;
+            enemyAnimationController.isGettingHit = true;
         }
     }
   
