@@ -33,20 +33,15 @@ public class FlyingEnemyController : MonoBehaviour, ICanGetHit
     {
         EnemyMovement();
     }
-
     void EnemyMovement()
     {
         destination = setDestin.SetDestin() - (Vector2)this.transform.position;
         rigi.velocity = destination.normalized * speed; //Bug finish point can't change when move too fast
     }
-
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         atkPlayerRay.AttackPlayer(this.damage);
     }
-
-
     void RotateEnemy()
     {
         Vector2 scale = Vector2.one;

@@ -42,7 +42,6 @@ public class EnemyController : MonoBehaviour, ICanGetHit
     {
         EnemyMovement();
     }
-
     void EnemyMovement()
     {
         isRunning = detectPlayer.DetectPlayer();
@@ -54,14 +53,10 @@ public class EnemyController : MonoBehaviour, ICanGetHit
         }
         rigi.velocity = 2 * speed * destination.normalized;
     }
-  
-  
     private void OnCollisionEnter2D(Collision2D collision)
     {
        atkPlayerRay.AttackPlayer(this.damage);
     }
-   
-  
     void RotateEnemy()
     {
         Vector2 scale = Vector2.one;
