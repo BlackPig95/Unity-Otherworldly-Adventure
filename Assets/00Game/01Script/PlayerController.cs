@@ -248,16 +248,21 @@ public class PlayerController : MonoBehaviour, ICanGetHit
         {
             Vector2 castPosX = new Vector2(xPos + i * stepX, this.transform.position.y);
             RaycastHit2D groundCheck = Physics2D.Raycast(castPosX, Vector2.down, castRangeGround, playerLayerMask);
+         
             if (groundCheck.collider == null)
             {
                 isGrounded = false; //Avoid bug stuck to wall when fall off platform
                 isJumping = true;
+                this.transform.SetParent(null);
                 return false;
             } // Avoid colliding with player null ref exception
             if (groundCheck.collider.gameObject.CompareTag(CONSTANT.groundTag))
             {
                 isGrounded = true;
                 canDoubleJump = true; //Allow Player jump once when fall off platform
+                PlatformMovement isPlatform = groundCheck.collider.GetComponent<PlatformMovement>();
+                if (isPlatform != null)
+                    this.gameObject.transform.SetParent(isPlatform.gameObject.transform, true);
                 return true;
             }
         }
@@ -267,10 +272,8 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     {
         if (!DetectWall())
             return false;
-
         rigi.velocity = new Vector2(0f, -4f);
         return true;
-
     }
     void OnDrawGizmosSelected()
     {
@@ -286,7 +289,6 @@ public class PlayerController : MonoBehaviour, ICanGetHit
             Gizmos.color = Color.red;
             Gizmos.DrawRay(castPosY, Vector2.right * castRangeY);
             Gizmos.DrawRay(castPosY, Vector2.left * castRangeY);
-
         }
 
         // Show Raycast Vertically

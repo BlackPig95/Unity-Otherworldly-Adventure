@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class FlyingEnemyController : MonoBehaviour, ICanGetHit
 {
     Rigidbody2D rigi;

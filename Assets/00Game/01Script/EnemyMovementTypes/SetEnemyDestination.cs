@@ -9,9 +9,9 @@ public class SetEnemyDestination : MonoBehaviour
     [SerializeField] Vector2 finishPoint;
     private void Awake()
     {
-         startPoint.transform.parent = null;
-       endPoint.transform.parent = null;
-       finishPoint = startPoint.transform.position;
+        startPoint.transform.parent = null;
+        endPoint.transform.parent = null;
+        finishPoint = startPoint.transform.position;
     }
     public Vector2 SetDestin()
     {
