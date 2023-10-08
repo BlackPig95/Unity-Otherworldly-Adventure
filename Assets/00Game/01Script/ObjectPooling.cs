@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ObjectPooling : MonoBehaviour
+public class ObjectPooling : Singleton<ObjectPooling>
 {
     Dictionary<GameObject, List<GameObject>> pool = new Dictionary<GameObject, List<GameObject>>();
 
