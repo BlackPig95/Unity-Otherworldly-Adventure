@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
         isJumping = false, isDoubleJumping = false, isWallSliding = false;
     float wallJumpCounter = 0f;
     bool isInvicible = false;
-    public int playerHP = 3;
+    int playerHP = 3;
     [SerializeField] PlayerState playerState = PlayerState.Idle;
     AnimationController playerAnimationController;
 
