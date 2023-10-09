@@ -176,7 +176,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     }
     void DetectEnemy()
     {
-        float castRangeGround = colli.bounds.size.y / 2 + 0.02f;
+        float castRangeGround = colli.bounds.size.y / 2 + 0.1f;
         int rayCount = 5;
         float stepX = this.colli.bounds.size.x / (rayCount - 1);
         float xPos = this.transform.position.x - colli.bounds.size.x / 2;
@@ -294,7 +294,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
         // Show Raycast Vertically
         for (int i = 1; i < rayCount - 1; i++)
         {
-            float castRangeGround = colli.bounds.size.y / 2 + 0.02f;
+            float castRangeGround = colli.bounds.size.y / 2 + 0.1f;
             float stepX = this.colli.bounds.size.x / (rayCount - 1);
             float xPos = this.transform.position.x - colli.bounds.size.x / 2;
             Vector2 castPosX = new Vector2(xPos + i * stepX, this.transform.position.y);
