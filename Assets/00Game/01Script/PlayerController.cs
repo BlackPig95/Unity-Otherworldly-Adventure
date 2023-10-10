@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
         isJumping = false, isDoubleJumping = false, isWallSliding = false;
     float wallJumpCounter = 0f;
     bool isInvicible = false;
-    int playerHP = 3;
+    public int playerHP = 3;
     [SerializeField] PlayerState playerState = PlayerState.Idle;
     AnimationController playerAnimationController;
 
@@ -272,7 +272,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     {
         if (!DetectWall())
             return false;
-        rigi.velocity = new Vector2(0f, -4f);
+        rigi.velocity = new Vector2(0f, -4f); //Bug player fall faster when fall from wall
         return true;
     }
     void OnDrawGizmosSelected()
