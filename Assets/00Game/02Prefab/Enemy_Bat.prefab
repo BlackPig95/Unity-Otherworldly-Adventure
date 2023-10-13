@@ -349,4 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c9b64a7569ec334e92fa23b657b78eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stat: {fileID: 11400000, guid: d9c6acbf4fba04d418f8aa9b71c086a0, type: 2}
   speed: 5
+  damage: 0
+  enemyHP: 0

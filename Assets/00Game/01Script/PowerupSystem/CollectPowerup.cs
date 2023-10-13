@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CollectPowerup : MonoBehaviour
 {
-    [SerializeField] PowerupEffects healthBuff;
+    [SerializeField] PowerupEffects Buff;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag(CONSTANT.playerPhysicsLayer))
         {
-            healthBuff.ApplyPowerup(collision.gameObject);
+            Buff.ApplyPowerup();
             Destroy(this.gameObject);
         }
     }

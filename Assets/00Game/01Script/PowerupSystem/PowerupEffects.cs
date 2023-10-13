@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class PowerupEffects : ScriptableObject
 {
-    public abstract void ApplyPowerup(GameObject target);
+    public abstract void ApplyPowerup();
 }

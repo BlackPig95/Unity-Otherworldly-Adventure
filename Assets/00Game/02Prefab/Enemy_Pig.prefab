@@ -187,7 +187,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isRunning: 0
+  stat: {fileID: 11400000, guid: 9a4f038942e709f499c45eee97f35db8, type: 2}
   speed: 5
+  damage: 0
+  enemyHP: 0
 --- !u!114 &6197907030305910695
 MonoBehaviour:
   m_ObjectHideFlags: 0

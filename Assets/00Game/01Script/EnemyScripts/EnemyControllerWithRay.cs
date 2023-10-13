@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class EnemyControllerWithRay : MonoBehaviour, ICanGetHit
 {
-    readonly int damage = 1;
     bool movingRight = true;
-    readonly float speed = 5f;
-    int enemyHP = 100;
     int currentHP;
+    [SerializeField] Stats stat;
+    [SerializeField] float speed;
+    [SerializeField] int damage, enemyHP;
     EnemyRayDown enemyRayDown;
     AtkPlayerWithRay atkPlayerRay;
     [SerializeField] Collider2D colli;
@@ -20,6 +20,9 @@ public class EnemyControllerWithRay : MonoBehaviour, ICanGetHit
 
     private void Awake()
     {
+        speed = stat.speed;
+        damage = stat.damage;
+        enemyHP = stat.hp;
         currentHP = enemyHP;
         if (colli == null)
             colli = this.GetComponent<Collider2D>();
@@ -68,6 +71,11 @@ public class EnemyControllerWithRay : MonoBehaviour, ICanGetHit
             currentHP = this.enemyHP;
             enemyAnimationController.isGettingHit = true;
         }
+        CheckDead();
     }
-
+    void CheckDead()
+    {
+        if (this.enemyHP <= 0)
+            Destroy(this.gameObject);
+    }
 }

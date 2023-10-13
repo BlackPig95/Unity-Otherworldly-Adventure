@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,9 +18,11 @@ public enum PlayerState
 public class PlayerController : MonoBehaviour, ICanGetHit
 {
     Rigidbody2D rigi;
+    [SerializeField] Stats stat;
     [SerializeField] Collider2D colli;
-    [SerializeField] float speed = 7.0f;
-    int damage = 100;
+    [SerializeField] private float currentSpeed, initSpeed;
+    [SerializeField] private int damage, initDmg, playerHP, maxHP;
+    [SerializeField] float buffTimer;
     [SerializeField] LayerMask playerLayerMask;
     Vector2 movement = Vector2.zero;
     [SerializeField] float jumpForce;
@@ -28,13 +31,18 @@ public class PlayerController : MonoBehaviour, ICanGetHit
         isJumping = false, isDoubleJumping = false, isWallSliding = false;
     float wallJumpCounter = 0f;
     bool isInvicible = false;
-    public int playerHP = 3;
     [SerializeField] PlayerState playerState = PlayerState.Idle;
     AnimationController playerAnimationController;
 
     // Start is called before the first frame update
     void Start()
     {
+        initSpeed = stat.speed;
+        maxHP = stat.hp;
+        initDmg = stat.damage;
+        playerHP = maxHP;
+        currentSpeed = initSpeed;
+        damage = initDmg;
         rigi = this.GetComponent<Rigidbody2D>();
         colli = this.GetComponent<Collider2D>();
         playerAnimationController = this.GetComponentInChildren<AnimationController>();
@@ -52,6 +60,8 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     // Update is called once per frame
     void Update()
     {
+        if (buffTimer > 0f)
+            buffTimer -= Time.deltaTime;    
         RotatePlayer();
         Jump();
         isWallSliding = WallSlide();
@@ -120,7 +130,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
             rigi.velocity = movement;
             return;
         }
-        movement.x = Input.GetAxisRaw(CONSTANT.horizontalInput) * speed;
+        movement.x = Input.GetAxisRaw(CONSTANT.horizontalInput) * currentSpeed;
         movement.y = rigi.velocity.y;
     }
     float RotatePlayer()
@@ -191,7 +201,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
             if (detectEnemyRay.collider != null)
             {
                 ICanGetHit isGetHit = detectEnemyRay.collider.GetComponent<ICanGetHit>();
-                if(isGetHit != null)
+                if (isGetHit != null)
                 {
                     isGetHit.GetHit(this.damage);
                     rigi.AddForce(new Vector2(0f, 200f));
@@ -248,7 +258,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
         {
             Vector2 castPosX = new Vector2(xPos + i * stepX, this.transform.position.y);
             RaycastHit2D groundCheck = Physics2D.Raycast(castPosX, Vector2.down, castRangeGround, playerLayerMask);
-         
+
             if (groundCheck.collider == null)
             {
                 isGrounded = false; //Avoid bug stuck to wall when fall off platform
@@ -272,6 +282,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     {
         if (!DetectWall())
             return false;
+       
         rigi.velocity = new Vector2(0f, -4f); //Bug player fall faster when fall from wall
         return true;
     }
@@ -302,18 +313,40 @@ public class PlayerController : MonoBehaviour, ICanGetHit
             Gizmos.DrawRay(castPosX, Vector2.down * castRangeGround);
         }
     }
-
-    public void GetHit(int damage)
+    public void GetHit(int dmg)
     {
         if (isInvicible)
             return;
 
-        this.playerHP -= damage;
+        this.playerHP -= dmg;
         isGettingHit = true;
         rigi.velocity = Vector2.zero;
         rigi.AddForce(new Vector2(0f, 200f));
         Debug.Log(playerHP);
         isInvicible = true;
         this.gameObject.layer = 4;
+        CheckDead();
+    }
+    public void GetHpBuff(int hp)
+    {
+        if (playerHP < maxHP)
+            this.playerHP += hp;
+    }
+    public void GetSpeedBuff(int multiplier, float timer)
+    {
+        buffTimer = timer;
+        this.currentSpeed *= multiplier;
+        StartCoroutine(ResetSpeedBuff());
+    }
+
+    IEnumerator ResetSpeedBuff()
+    {
+        yield return new WaitForSeconds(buffTimer);
+        this.currentSpeed = initSpeed;
+    }
+    void CheckDead()
+    {
+        if (playerHP <= 0)
+            Debug.Log("Player died");
     }
 }

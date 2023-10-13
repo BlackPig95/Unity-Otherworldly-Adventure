@@ -7,8 +7,8 @@ using UnityEngine;
 public class HealthBuff : PowerupEffects
 {
     public int amount = 1;
-    public override void ApplyPowerup(GameObject target)
+    public override void ApplyPowerup()
     {
-        target.GetComponent<PlayerController>().playerHP += amount;
+        GameManager.Instance.playerController.GetHpBuff(amount);
     }
 }

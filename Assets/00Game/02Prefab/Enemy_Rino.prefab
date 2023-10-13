@@ -150,6 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d21e12b3f096f84a91e5c4d2775c227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stat: {fileID: 11400000, guid: 956b7ebdf794fa548aaa26bae2a82654, type: 2}
+  speed: 0
+  damage: 0
+  enemyHP: 0
   colli: {fileID: 4073924918388971810}
 --- !u!114 &1181055154129896125
 MonoBehaviour:

@@ -14,8 +14,9 @@ public class EnemyController : MonoBehaviour, ICanGetHit
 {
     Rigidbody2D rigi;
     [SerializeField] bool isRunning = false;
-    [SerializeField] float speed = 5.0f;
-    int damage = 1, enemyHP = 100;
+    [SerializeField] Stats stat;
+    [SerializeField] float speed;
+    [SerializeField] int damage, enemyHP;
     Vector2 destination = Vector2.zero;
     int currentHP;
     SetEnemyDestination setDestin;
@@ -25,6 +26,9 @@ public class EnemyController : MonoBehaviour, ICanGetHit
     // Start is called before the first frame update
     void Start()
     {
+        speed = stat.speed;
+        damage = stat.damage;
+        enemyHP = stat.hp;
         atkPlayerRay = GetComponent<AtkPlayerWithRay>();
         setDestin = this.GetComponent<SetEnemyDestination>();
         rigi = this.GetComponent<Rigidbody2D>();
@@ -72,6 +76,11 @@ public class EnemyController : MonoBehaviour, ICanGetHit
             currentHP = this.enemyHP;
             enemyAnimationController.isGettingHit = true;
         }
+        CheckDead();
     }
-  
+    void CheckDead()
+    {
+        if (this.enemyHP <= 0)
+            Destroy(this.gameObject);
+    }
 }
