@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    public PlayerController playerController;
+    [SerializeField] private PlayerController _playerController;
+    public PlayerController playerController => _playerController;
     // Start is called before the first frame update
     void Start()
     {
-        if (playerController == null) 
-            playerController = FindObjectOfType<PlayerController>().GetComponent<PlayerController>();
+        if (_playerController == null) 
+            _playerController = FindObjectOfType<PlayerController>().GetComponent<PlayerController>();
+        this.Init();
+        UIManager.Instance.Init();
+    }
+    void Init()
+    {
+        _playerController.Init();
     }
 
     // Update is called once per frame

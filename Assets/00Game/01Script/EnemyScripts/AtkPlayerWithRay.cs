@@ -7,12 +7,17 @@ public class AtkPlayerWithRay : MonoBehaviour
 {
     [SerializeField] LayerMask layerMask;
     [SerializeField] Collider2D colli;
-
-    private void Awake()
+    private void Start()
     {
         if (colli == null)
             colli = this.GetComponent<Collider2D>();
         layerMask = LayerMask.GetMask(CONSTANT.playerPhysicsLayer);
+        if (this.GetComponent<EnemyController>() != null) //Make sure enemy will always have atk ability
+            this.GetComponent<EnemyController>().Init();
+        if(this.GetComponent<EnemyControllerWithRay>() != null)
+            this.GetComponent<EnemyControllerWithRay>().Init();
+        if (this.GetComponent<FlyingEnemyController>() != null)
+            this.GetComponent<FlyingEnemyController>().Init();
     }
     public void AttackPlayer(int damage)
     {

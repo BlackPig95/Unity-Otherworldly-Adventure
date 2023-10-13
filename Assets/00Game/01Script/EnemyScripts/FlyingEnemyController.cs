@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(AtkPlayerWithRay))]
 public class FlyingEnemyController : MonoBehaviour, ICanGetHit
 {
     Rigidbody2D rigi;
@@ -15,8 +16,7 @@ public class FlyingEnemyController : MonoBehaviour, ICanGetHit
     AtkPlayerWithRay atkPlayerRay;
     EnemyAnimationController enemyAnimationController;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         speed = stat.speed;
         damage = stat.damage;
@@ -27,7 +27,6 @@ public class FlyingEnemyController : MonoBehaviour, ICanGetHit
         currentHP = this.enemyHP;
         enemyAnimationController = this.GetComponentInChildren<EnemyAnimationController>();
     }
-
     // Update is called once per frame
     void Update()
     {

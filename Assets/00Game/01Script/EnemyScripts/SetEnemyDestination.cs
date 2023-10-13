@@ -7,7 +7,7 @@ public class SetEnemyDestination : MonoBehaviour
 {
     [SerializeField] GameObject startPoint, endPoint;
     [SerializeField] Vector2 finishPoint;
-    private void Awake()
+    private void Start()
     {
         startPoint.transform.parent = null;
         endPoint.transform.parent = null;

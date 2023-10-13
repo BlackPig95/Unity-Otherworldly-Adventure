@@ -8,7 +8,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] Slider volumeSlider;
     [SerializeField] Button playButton;
     // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         Observer.Instance.AddListener(Observer.FinishLevel, ShowText);
     }

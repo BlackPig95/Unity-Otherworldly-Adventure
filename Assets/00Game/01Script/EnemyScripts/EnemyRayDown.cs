@@ -8,7 +8,7 @@ public class EnemyRayDown : MonoBehaviour
 {
     Collider2D colli;
     bool movingRight = false;
-    private void Awake()
+    private void Start()
     {
         colli = this.GetComponent<Collider2D>();
     }

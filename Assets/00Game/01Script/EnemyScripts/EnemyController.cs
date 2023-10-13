@@ -4,12 +4,15 @@ using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 
+
 public enum EnemyState
 {
     Walk,
     Run,
     Hit,
 }
+
+[RequireComponent(typeof(AtkPlayerWithRay))]
 public class EnemyController : MonoBehaviour, ICanGetHit
 {
     Rigidbody2D rigi;
@@ -23,8 +26,7 @@ public class EnemyController : MonoBehaviour, ICanGetHit
     AtkPlayerWithRay atkPlayerRay;
     DetectPlayerWithRay detectPlayer;
     EnemyAnimationController enemyAnimationController;
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         speed = stat.speed;
         damage = stat.damage;

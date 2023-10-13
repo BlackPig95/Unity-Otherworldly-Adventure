@@ -1031,8 +1031,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c802686353f3e404d80f54e4204b88e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stat: {fileID: 11400000, guid: 3cf3f324a1c85924c90372e7faa84195, type: 2}
   colli: {fileID: 376302066}
+  stat: {fileID: 11400000, guid: 3cf3f324a1c85924c90372e7faa84195, type: 2}
   currentSpeed: 0
   initSpeed: 0
   damage: 0
@@ -1043,13 +1043,6 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 119
-  jumpForce: 6.5
-  canDoubleJump: 0
-  isGrounded: 1
-  isGettingHit: 0
-  isJumping: 0
-  isDoubleJumping: 0
-  isWallSliding: 0
   playerState: 0
 --- !u!61 &376302066
 BoxCollider2D:
@@ -45552,7 +45545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0d6fb2f7d87104981a67f3101f8b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 376302065}
+  _playerController: {fileID: 376302065}
 --- !u!4 &980017984 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2056211545459228475, guid: abdd9973545ce0f45913df648403d43a, type: 3}

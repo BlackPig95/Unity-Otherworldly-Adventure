@@ -10,7 +10,7 @@ public class DetectPlayerWithRay : MonoBehaviour
     float rayLength = 5.0f;
     [SerializeField] LayerMask layerMask;
     Vector2 castDir = Vector2.left;
-    private void Awake()
+    private void Start()
     {
         colli = this.GetComponent<Collider2D>();
         layerMask = LayerMask.GetMask(CONSTANT.playerPhysicsLayer);

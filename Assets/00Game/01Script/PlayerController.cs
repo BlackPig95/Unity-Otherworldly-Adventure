@@ -18,15 +18,14 @@ public enum PlayerState
 public class PlayerController : MonoBehaviour, ICanGetHit
 {
     Rigidbody2D rigi;
-    [SerializeField] Stats stat;
     [SerializeField] Collider2D colli;
+    [SerializeField] Stats stat;
     [SerializeField] private float currentSpeed, initSpeed;
     [SerializeField] private int damage, initDmg, playerHP, maxHP;
     [SerializeField] float buffTimer;
     [SerializeField] LayerMask playerLayerMask;
     Vector2 movement = Vector2.zero;
-    [SerializeField] float jumpForce;
-    [SerializeField]
+    float jumpForce = 6.5f;
     bool canDoubleJump = false, isGrounded = true, isGettingHit = false,
         isJumping = false, isDoubleJumping = false, isWallSliding = false;
     float wallJumpCounter = 0f;
@@ -34,8 +33,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     [SerializeField] PlayerState playerState = PlayerState.Idle;
     AnimationController playerAnimationController;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         initSpeed = stat.speed;
         maxHP = stat.hp;

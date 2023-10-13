@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(AtkPlayerWithRay))]
 public class EnemyControllerWithRay : MonoBehaviour, ICanGetHit
 {
     bool movingRight = true;
@@ -18,7 +20,7 @@ public class EnemyControllerWithRay : MonoBehaviour, ICanGetHit
     DetectPlayerWithRay detectPlayer;
     EnemyAnimationController enemyAnimationController;
 
-    private void Awake()
+    public void Init()
     {
         speed = stat.speed;
         damage = stat.damage;
