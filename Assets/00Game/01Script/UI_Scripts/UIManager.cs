@@ -14,20 +14,22 @@ public class UIManager : Singleton<UIManager>
     }
     public void ShowText(object data)
     {
-       GameObject textObject = (GameObject)data;
-            textObject.SetActive(true);
+        GameObject textObject = (GameObject)data;
+        textObject.SetActive(true);
     }
     public void PlayOrPause()
     {
-        if(Time.timeScale == 1)
+        if (GameManager.Instance.gameState == GameState.Play)
         {
-            Time.timeScale = 0;
             playButton.image.color = Color.blue;
+            GameManager.Instance.gameState = GameState.Pause;
+            GameManager.Instance.PauseGame();
         }
-        else
+        else if (GameManager.Instance.gameState == GameState.Pause)
         {
-            Time.timeScale = 1;
             playButton.image.color = Color.white;
+            GameManager.Instance.gameState = GameState.Play;
+            GameManager.Instance.PauseGame();
         }
     }
     public void ChangeVolume()

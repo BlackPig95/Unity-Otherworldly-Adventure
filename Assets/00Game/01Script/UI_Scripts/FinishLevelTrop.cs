@@ -10,7 +10,8 @@ public class FinishLevelTrop : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Observer.Instance.Notify(Observer.FinishLevel, finishedLevelText);
-        Time.timeScale = 0f;
+        GameManager.Instance.gameState = GameState.Pause;
+        GameManager.Instance.PauseGame();
         Destroy(this.gameObject);
     }
     private void OnDestroy()

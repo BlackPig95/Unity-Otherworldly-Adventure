@@ -32,7 +32,5 @@ public class SaveLoadSystem : Singleton<SaveLoadSystem>
             SaveData data = JsonUtility.FromJson<SaveData>(json);
             player.transform.position = data.Pos;
             GameManager.Instance.playerController.playerHP = data.Hp;
-        
-       
     }
 }

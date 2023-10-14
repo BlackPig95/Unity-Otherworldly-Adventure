@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.gameState == GameState.Pause)
+            return;
         RotatePlayer();
         Jump();
         isWallSliding = WallSlide();
@@ -278,7 +280,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     {
         if (!DetectWall())
             return false;
-       
+
         rigi.velocity = new Vector2(0f, -4f); //Bug player fall faster when fall from wall
         return true;
     }
