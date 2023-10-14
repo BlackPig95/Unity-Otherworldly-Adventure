@@ -8,6 +8,7 @@ public class Observer : Singleton<Observer>
     Dictionary<string, List<Action<object>>> listActions = new Dictionary<string, List<Action<object>>>();
     #region KEYS
     public static string FinishLevel = "FinishLevel";
+    public static string SavePoint = "Saved";
     #endregion
 
     public void AddListener(string key, Action<object> callBack)

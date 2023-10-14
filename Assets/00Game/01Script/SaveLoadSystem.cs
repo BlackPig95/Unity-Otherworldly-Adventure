@@ -7,14 +7,12 @@ public class SaveLoadSystem : Singleton<SaveLoadSystem>
     public int saveHp;
     public Vector2 savePos;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void GetSaveInfo(object player)
     {
-        GetSaveInfo(collision.gameObject);
-    }
-    public void GetSaveInfo(GameObject player)
-    {
-        saveHp = player.GetComponent<PlayerController>().playerHP;
-        savePos = player.transform.position;
+        saveHp = GameManager.Instance.playerController.playerHP;
+        savePos = GameManager.Instance.playerController.transform.position;
+       /* GameObject pl = (GameObject)player;  Second method
+        savePos = pl.transform.position;*/
         SaveToJSON();
     }
     public void SaveToJSON()
@@ -23,13 +21,18 @@ public class SaveLoadSystem : Singleton<SaveLoadSystem>
         data.Hp = saveHp;
         data.Pos = savePos;
         string json = JsonUtility.ToJson(data);
-        PlayerPrefs.SetString("GameSaved", json);
+        PlayerPrefs.SetString(CONSTANT.prefSave, json);
     }
     public void LoadFromJSON(GameObject player)
     {
-        string json = PlayerPrefs.GetString("GameSaved");
-        SaveData data = JsonUtility.FromJson<SaveData>(json);
-        player.transform.position = data.Pos;
-        GameManager.Instance.playerController.playerHP = data.Hp;
+        if (!PlayerPrefs.HasKey(CONSTANT.prefSave))
+            return;
+
+            string json = PlayerPrefs.GetString(CONSTANT.prefSave);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+            player.transform.position = data.Pos;
+            GameManager.Instance.playerController.playerHP = data.Hp;
+        
+       
     }
 }
