@@ -345,6 +345,9 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     void CheckDead()
     {
         if (playerHP <= 0)
+        {
             Debug.Log("Player died");
+            SaveLoadSystem.Instance.LoadFromJSON(this.gameObject);
+        }
     }
 }
