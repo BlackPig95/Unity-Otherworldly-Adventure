@@ -5,7 +5,5 @@ using UnityEngine;
 public class SaveData
 {
     public int Hp;
-    public float PosX;
-    public float PosY;
-    public float PosZ;
+    public Vector2 Pos;
 }

@@ -5,9 +5,7 @@ using UnityEngine;
 public class SaveLoadSystem : Singleton<SaveLoadSystem>
 {
     public int saveHp;
-    public float savePosX;
-    public float savePosY;
-    public float savePosZ;
+    public Vector2 savePos;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -15,18 +13,15 @@ public class SaveLoadSystem : Singleton<SaveLoadSystem>
     }
     public void GetSaveInfo(GameObject player)
     {
-        savePosX = player.transform.position.x;
-        savePosY = player.transform.position.y;
-        savePosZ = player.transform.position.z;
+        saveHp = player.GetComponent<PlayerController>().playerHP;
+        savePos = player.transform.position;
         SaveToJSON();
     }
     public void SaveToJSON()
     {
         SaveData data = new SaveData();
         data.Hp = saveHp;
-        data.PosX = savePosX;
-        data.PosY = savePosY;
-        data.PosZ = savePosZ;
+        data.Pos = savePos;
         string json = JsonUtility.ToJson(data);
         PlayerPrefs.SetString("GameSaved", json);
     }
@@ -34,6 +29,7 @@ public class SaveLoadSystem : Singleton<SaveLoadSystem>
     {
         string json = PlayerPrefs.GetString("GameSaved");
         SaveData data = JsonUtility.FromJson<SaveData>(json);
-         player.transform.position = new Vector3(data.PosX, data.PosY, data.PosZ);
+        player.transform.position = data.Pos;
+        GameManager.Instance.playerController.playerHP = data.Hp;
     }
 }

@@ -21,8 +21,8 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     [SerializeField] Collider2D colli;
     [SerializeField] Stats stat;
     [SerializeField] private float currentSpeed, initSpeed;
-    [SerializeField] private int damage, initDmg, playerHP, maxHP;
-    [SerializeField] float buffTimer;
+    [SerializeField] private int damage, initDmg, maxHP;
+    public int playerHP { get; set; }
     [SerializeField] LayerMask playerLayerMask;
     Vector2 movement = Vector2.zero;
     float jumpForce = 6.5f;
@@ -58,8 +58,6 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     // Update is called once per frame
     void Update()
     {
-        if (buffTimer > 0f)
-            buffTimer -= Time.deltaTime;    
         RotatePlayer();
         Jump();
         isWallSliding = WallSlide();
@@ -332,12 +330,11 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     }
     public void GetSpeedBuff(int multiplier, float timer)
     {
-        buffTimer = timer;
         this.currentSpeed *= multiplier;
-        StartCoroutine(ResetSpeedBuff());
+        StartCoroutine(ResetSpeedBuff(timer));
     }
 
-    IEnumerator ResetSpeedBuff()
+    IEnumerator ResetSpeedBuff(float buffTimer)
     {
         yield return new WaitForSeconds(buffTimer);
         this.currentSpeed = initSpeed;
