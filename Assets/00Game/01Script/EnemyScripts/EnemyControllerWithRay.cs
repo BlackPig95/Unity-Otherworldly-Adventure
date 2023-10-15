@@ -4,13 +4,12 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(AtkPlayerWithRay))]
-public class EnemyControllerWithRay : MonoBehaviour, ICanGetHit
+public class EnemyControllerWithRay : MonoBehaviour
 {
     bool movingRight = true;
-    int currentHP;
     [SerializeField] Stats stat;
     [SerializeField] float speed;
-    [SerializeField] int damage, enemyHP;
+    [SerializeField] int damage;
     EnemyRayDown enemyRayDown;
     AtkPlayerWithRay atkPlayerRay;
     [SerializeField] Collider2D colli;
@@ -18,21 +17,17 @@ public class EnemyControllerWithRay : MonoBehaviour, ICanGetHit
     int turnBack = 1;
     bool isRunning = false;
     DetectPlayerWithRay detectPlayer;
-    EnemyAnimationController enemyAnimationController;
 
     public void Init()
     {
         speed = stat.speed;
         damage = stat.damage;
-        enemyHP = stat.hp;
-        currentHP = enemyHP;
         if (colli == null)
             colli = this.GetComponent<Collider2D>();
         enemyRayDown = this.GetComponent<EnemyRayDown>();
         atkPlayerRay = this.GetComponent<AtkPlayerWithRay>();
         rigi = this.GetComponent<Rigidbody2D>();
         detectPlayer = this.GetComponent<DetectPlayerWithRay>();
-        enemyAnimationController = this.GetComponentInChildren<EnemyAnimationController>();
     }
     void Update()
     {
@@ -48,13 +43,18 @@ public class EnemyControllerWithRay : MonoBehaviour, ICanGetHit
         isRunning = detectPlayer.DetectPlayer();
         if (!movingRight)
         {
-            this.transform.eulerAngles = Vector3.zero;
             turnBack = 1;
+            Vector2 scale = Vector2.one;
+            scale.x = 1;
+            this.transform.localScale = scale;
+
         }
         else
         {
-            this.transform.eulerAngles = new Vector3(0, -180, 0); //The rotation is reversed??
             turnBack = -1;
+            Vector2 scale = Vector2.one;
+            scale.x = -1;
+            this.transform.localScale = scale;
         }
         if (isRunning)
         {
@@ -63,21 +63,5 @@ public class EnemyControllerWithRay : MonoBehaviour, ICanGetHit
         }
         rigi.velocity = speed * Vector2.left * turnBack;
 
-    }
-    public void GetHit(int damage)
-    {
-        this.enemyHP -= damage;
-        Debug.Log("Enemy HP " + enemyHP);
-        if (this.enemyHP < currentHP)
-        {
-            currentHP = this.enemyHP;
-            enemyAnimationController.isGettingHit = true;
-        }
-        CheckDead();
-    }
-    void CheckDead()
-    {
-        if (this.enemyHP <= 0)
-            Destroy(this.gameObject);
     }
 }

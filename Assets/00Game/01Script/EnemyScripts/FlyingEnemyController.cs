@@ -4,28 +4,23 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(AtkPlayerWithRay))]
-public class FlyingEnemyController : MonoBehaviour, ICanGetHit
+public class FlyingEnemyController : MonoBehaviour
 {
     Rigidbody2D rigi;
     Vector2 destination = Vector2.zero;
     [SerializeField] Stats stat;
     [SerializeField] float speed;
-    [SerializeField] int damage, enemyHP;
-    int currentHP;
+    [SerializeField] int damage;
     SetEnemyDestination setDestin;
     AtkPlayerWithRay atkPlayerRay;
-    EnemyAnimationController enemyAnimationController;
 
     public void Init()
     {
         speed = stat.speed;
         damage = stat.damage;
-        enemyHP = stat.hp;
         atkPlayerRay = GetComponent<AtkPlayerWithRay>();
         setDestin = this.GetComponent<SetEnemyDestination>();
         rigi = this.GetComponent<Rigidbody2D>();
-        currentHP = this.enemyHP;
-        enemyAnimationController = this.GetComponentInChildren<EnemyAnimationController>();
     }
     // Update is called once per frame
     void Update()
@@ -48,23 +43,7 @@ public class FlyingEnemyController : MonoBehaviour, ICanGetHit
     void RotateEnemy()
     {
         Vector2 scale = Vector2.one;
-        scale.x = -destination.normalized.x;
+        scale.x = -destination.normalized.x * 1 / Mathf.Abs(destination.normalized.x); //Scale magnitude always 1
         this.transform.localScale = scale;
-    }
-    public void GetHit(int damage)
-    {
-        this.enemyHP -= damage;
-        Debug.Log("Enemy HP " + enemyHP);
-        if (this.enemyHP < currentHP)
-        {
-            currentHP = this.enemyHP;
-            enemyAnimationController.isGettingHit = true;
-        }
-        CheckDead();
-    }
-    void CheckDead()
-    {
-        if (this.enemyHP <= 0)
-            Destroy(this.gameObject);
     }
 }

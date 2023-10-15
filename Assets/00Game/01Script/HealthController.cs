@@ -20,7 +20,7 @@ public class HealthController : MonoBehaviour, ICanGetHit
     }
     private void Update()
     {
-        healthBar.value = (float) health / stat.hp; // Null ref exception??
+        healthBar.value = (float) health / stat.hp; 
     }
     private void LateUpdate()
     {
