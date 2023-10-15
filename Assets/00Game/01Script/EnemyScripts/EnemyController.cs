@@ -19,22 +19,18 @@ public class EnemyController : MonoBehaviour
     [SerializeField] bool isRunning = false;
     [SerializeField] Stats stat;
     [SerializeField] float speed;
-    [SerializeField] int damage, enemyHP;
+    [SerializeField] int damage;
     Vector2 destination = Vector2.zero;
- //   int currentHP;
     SetEnemyDestination setDestin;
     AtkPlayerWithRay atkPlayerRay;
     DetectPlayerWithRay detectPlayer;
-  //  EnemyAnimationController enemyAnimationController;
     public void Init()
     {
         speed = stat.speed;
         damage = stat.damage;
-        enemyHP = stat.hp;
         atkPlayerRay = GetComponent<AtkPlayerWithRay>();
         setDestin = this.GetComponent<SetEnemyDestination>();
         rigi = this.GetComponent<Rigidbody2D>();
-      //  currentHP = this.enemyHP;
         detectPlayer = this.GetComponent<DetectPlayerWithRay>();
     }
 
@@ -68,20 +64,4 @@ public class EnemyController : MonoBehaviour
         scale.x = -destination.normalized.x;
         this.transform.localScale = scale;
     }
- /*   public void GetHit(int damage)
-    {
-        this.enemyHP -= damage;
-        Debug.Log("Enemy HP " + enemyHP);
-        if(this.enemyHP < currentHP)
-        {
-            currentHP = this.enemyHP;
-            enemyAnimationController.isGettingHit = true;
-        }
-        CheckDead();
-    }*/
-   /* void CheckDead()
-    {
-        if (this.enemyHP <= 0)
-            Destroy(this.gameObject);
-    }*/
 }
