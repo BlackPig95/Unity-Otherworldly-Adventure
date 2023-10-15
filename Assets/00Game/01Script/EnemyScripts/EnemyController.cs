@@ -13,7 +13,7 @@ public enum EnemyState
 }
 
 [RequireComponent(typeof(AtkPlayerWithRay))]
-public class EnemyController : MonoBehaviour, ICanGetHit
+public class EnemyController : MonoBehaviour
 {
     Rigidbody2D rigi;
     [SerializeField] bool isRunning = false;
@@ -21,11 +21,11 @@ public class EnemyController : MonoBehaviour, ICanGetHit
     [SerializeField] float speed;
     [SerializeField] int damage, enemyHP;
     Vector2 destination = Vector2.zero;
-    int currentHP;
+ //   int currentHP;
     SetEnemyDestination setDestin;
     AtkPlayerWithRay atkPlayerRay;
     DetectPlayerWithRay detectPlayer;
-    EnemyAnimationController enemyAnimationController;
+  //  EnemyAnimationController enemyAnimationController;
     public void Init()
     {
         speed = stat.speed;
@@ -34,9 +34,8 @@ public class EnemyController : MonoBehaviour, ICanGetHit
         atkPlayerRay = GetComponent<AtkPlayerWithRay>();
         setDestin = this.GetComponent<SetEnemyDestination>();
         rigi = this.GetComponent<Rigidbody2D>();
-        currentHP = this.enemyHP;
+      //  currentHP = this.enemyHP;
         detectPlayer = this.GetComponent<DetectPlayerWithRay>();
-        enemyAnimationController = this.GetComponentInChildren<EnemyAnimationController>();
     }
 
     // Update is called once per frame
@@ -69,7 +68,7 @@ public class EnemyController : MonoBehaviour, ICanGetHit
         scale.x = -destination.normalized.x;
         this.transform.localScale = scale;
     }
-    public void GetHit(int damage)
+ /*   public void GetHit(int damage)
     {
         this.enemyHP -= damage;
         Debug.Log("Enemy HP " + enemyHP);
@@ -79,10 +78,10 @@ public class EnemyController : MonoBehaviour, ICanGetHit
             enemyAnimationController.isGettingHit = true;
         }
         CheckDead();
-    }
-    void CheckDead()
+    }*/
+   /* void CheckDead()
     {
         if (this.enemyHP <= 0)
             Destroy(this.gameObject);
-    }
+    }*/
 }
