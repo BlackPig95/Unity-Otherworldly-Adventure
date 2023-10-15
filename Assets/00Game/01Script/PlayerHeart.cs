@@ -8,7 +8,7 @@ public class PlayerHeart : MonoBehaviour
     [SerializeField] Sprite fullHeart;
     [SerializeField] Sprite emptyHeart;
     [SerializeField] Image[] hearts;
-    public int health = 4;
+    public int health;
 
     private void Start()
     {
@@ -17,6 +17,7 @@ public class PlayerHeart : MonoBehaviour
     }
     private void Update()
     {
+        health = GameManager.Instance.playerController.playerHP;
         for (int i = 0; i < hearts.Length; i++)
         {
             if (i < health)
