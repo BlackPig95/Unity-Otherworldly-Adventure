@@ -8,11 +8,13 @@ public class SaveLoadSystem : Singleton<SaveLoadSystem>
      Vector2 savePos;
     SaveData startData;
     string startJSON;
-    private void Start()
+    public void Init()
     {
         startData = new SaveData();
         startData.Hp = GameManager.Instance.playerController.playerHP;
         startData.Pos = GameManager.Instance.playerController.transform.position;
+        if (PlayerPrefs.HasKey(CONSTANT.prefSave))
+            PlayerPrefs.DeleteKey(CONSTANT.prefSave); //No key should exist before player touch save point
         startJSON = JsonUtility.ToJson(startData);
     }
     public void GetSaveInfo(object player)
@@ -35,6 +37,7 @@ public class SaveLoadSystem : Singleton<SaveLoadSystem>
     {
         if (!PlayerPrefs.HasKey(CONSTANT.prefSave))
         {
+            Debug.Log("Nothing");
             SaveData start = JsonUtility.FromJson<SaveData>(startJSON);
             player.transform.position = startData.Pos;
             GameManager.Instance.playerController.playerHP = startData.Hp;

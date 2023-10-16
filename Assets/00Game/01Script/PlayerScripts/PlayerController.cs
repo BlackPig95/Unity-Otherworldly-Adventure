@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     [SerializeField] Stats stat;
     [SerializeField] private float currentSpeed, initSpeed;
     [SerializeField] private int damage, initDmg, maxHP;
-    public int playerHP { get; set; }
+    public int playerHP;
     [SerializeField] LayerMask playerLayerMask;
     Vector2 movement = Vector2.zero;
     float jumpForce = 6.5f;
@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
                 this.gameObject.layer = 3;
             }
         };
+        SaveLoadSystem.Instance.Init();
     }
 
     // Update is called once per frame
