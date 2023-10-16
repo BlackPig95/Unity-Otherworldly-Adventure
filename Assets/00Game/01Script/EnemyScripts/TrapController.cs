@@ -28,7 +28,7 @@ public class TrapController : MonoBehaviour
         ICanGetHit isGetHit = collision.collider.GetComponent<ICanGetHit>();
         isGetHit.GetHit(this.damage);
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         AttackPlayer(collision);
     }

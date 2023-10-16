@@ -15,8 +15,8 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-        if (_playerController == null) 
-            _playerController = FindObjectOfType<PlayerController>().GetComponent<PlayerController>();
+        if (_playerController == null)
+            _playerController = FindObjectOfType<PlayerController>();
         this.Init();
         UIManager.Instance.Init();
     }
