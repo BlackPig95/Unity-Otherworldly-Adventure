@@ -6,11 +6,20 @@ using UnityEngine.UI;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] Slider volumeSlider;
+    [SerializeField] Button volumeButton;
     [SerializeField] Button playButton;
     // Start is called before the first frame update
     public void Init()
     {
         Observer.Instance.AddListener(Observer.FinishLevel, ShowText);
+        if (volumeButton == null)
+            volumeButton = GameObject.Find("VolumeButton").GetComponent<Button>();
+        if (volumeSlider == null)
+            volumeSlider = GameObject.Find("VolumeSlider").GetComponentInChildren<Slider>(true);
+        if (playButton == null)
+            playButton = GameObject.Find("PlayButton").GetComponent<Button>();
+        volumeButton.onClick.AddListener(ChangeVolume); 
+        playButton.onClick.AddListener(PlayOrPause);
     }
     public void ShowText(object data)
     {

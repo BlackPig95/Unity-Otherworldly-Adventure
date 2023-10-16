@@ -9,6 +9,9 @@ public class FinishLevelTrop : MonoBehaviour
     private bool applicationQuitting = false;
     private void Start()
     {
+
+        if (finishedLevelText == null)
+            finishedLevelText = GameObject.Find("FinishLevelText").GetComponentInChildren<Text>(true).gameObject;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
