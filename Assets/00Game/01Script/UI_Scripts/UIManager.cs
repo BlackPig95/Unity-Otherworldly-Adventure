@@ -32,9 +32,8 @@ public class UIManager : Singleton<UIManager>
     IEnumerator WaitLoadScene()
     {
         float waitTime = 0f;
-        StartCoroutine(GameManager.Instance.LoadingScreen());
+        StartCoroutine(GameManager.Instance.LoadingScreen());//Fake loading screen to transit better
         loadingCanvas.SetActive(true);
-        bool actived = false;
         for(int i = 0; i < loadingScreen.Count; i++)
         {
            if(i== GameManager.Instance.currentLevel)
