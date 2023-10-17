@@ -13,11 +13,11 @@ public class UIManager : Singleton<UIManager>
     {
         Observer.Instance.AddListener(Observer.FinishLevel, ShowText);
         if (volumeButton == null)
-            volumeButton = GameObject.Find("VolumeButton").GetComponent<Button>();
+            volumeButton = GameObject.Find(CONSTANT.volumeButton).GetComponent<Button>();
         if (volumeSlider == null)
-            volumeSlider = GameObject.Find("VolumeSlider").GetComponentInChildren<Slider>(true);
+            volumeSlider = GameObject.Find(CONSTANT.volumeSlider).GetComponentInChildren<Slider>(true);
         if (playButton == null)
-            playButton = GameObject.Find("PlayButton").GetComponent<Button>();
+            playButton = GameObject.Find(CONSTANT.playButton).GetComponent<Button>();
         volumeButton.onClick.AddListener(ChangeVolume); 
         playButton.onClick.AddListener(PlayOrPause);
     }

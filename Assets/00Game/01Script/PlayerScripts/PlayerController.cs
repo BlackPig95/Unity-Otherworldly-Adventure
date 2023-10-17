@@ -17,7 +17,7 @@ public enum PlayerState
 [RequireComponent(typeof(BoxCollider2D))]
 public class PlayerController : MonoBehaviour, ICanGetHit
 {
-    Rigidbody2D rigi;
+     public Rigidbody2D rigi;
     [SerializeField] Collider2D colli;
     [SerializeField] Stats stat;
     [SerializeField] private float currentSpeed, initSpeed;
@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     [SerializeField] PlayerState playerState = PlayerState.Idle;
     AnimationController playerAnimationController;
 
-    public void Init()
+    public void Start()
     {
         initSpeed = stat.speed;
         maxHP = stat.hp;
