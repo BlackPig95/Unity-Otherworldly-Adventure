@@ -9,6 +9,7 @@ public class Observer : Singleton<Observer>
     #region KEYS
     public static string FinishLevel = "FinishLevel";
     public static string SavePoint = "Saved";
+    public static string InitLevel = "InitLevel";
     #endregion
 
     public void AddListener(string key, Action<object> callBack)

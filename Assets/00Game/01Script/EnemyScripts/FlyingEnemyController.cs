@@ -14,7 +14,7 @@ public class FlyingEnemyController : MonoBehaviour
     SetEnemyDestination setDestin;
     AtkPlayerWithRay atkPlayerRay;
 
-    public void Init()
+    public void OnEnable()
     {
         speed = stat.speed;
         damage = stat.damage;

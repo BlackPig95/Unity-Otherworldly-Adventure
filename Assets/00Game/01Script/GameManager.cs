@@ -13,6 +13,8 @@ public class GameManager : Singleton<GameManager>
     public GameObject oldLevel;
     [SerializeField] List<GameObject> levelPrefab = new List<GameObject>();
     [SerializeField] private PlayerController _playerController;
+    private bool applicationQuitting = false;
+
     public PlayerController playerController
     {
         get
@@ -23,17 +25,16 @@ public class GameManager : Singleton<GameManager>
         }
     }
     public GameState gameState = GameState.Play;
+    private void Awake()
+    {
+        Observer.Instance.AddListener(Observer.InitLevel, InitLevel);
+    }
     // Start is called before the first frame update
     void Start()
     {
-        InitLevel();
-        this.Init();
-        UIManager.Instance.Init();
+        Observer.Instance.Notify(Observer.InitLevel);
     }
-    void Init()
-    {
-        
-    }
+
     public void PauseGame() //Let only gamemanager control game flow for easier reference/debug in future extension
     {
         if (gameState == GameState.Play)
@@ -41,14 +42,37 @@ public class GameManager : Singleton<GameManager>
         else if (gameState == GameState.Pause)
             Time.timeScale = 0.0f;
     }
-    void InitLevel()
+    void InitLevel(object data = null)
     {
-        if (_playerController == null)
-            _playerController = FindObjectOfType<PlayerController>();
+        gameState = GameState.Play;
+        PauseGame();
         currentLevel++;
         if(oldLevel!= null)
+        {
             Destroy(oldLevel);
+            Destroy(_playerController);
+        }
 
         oldLevel = Instantiate(levelPrefab[currentLevel]);
+
+        if (_playerController == null)
+            _playerController = FindObjectOfType<PlayerController>();
+        StartCoroutine(Wait());
+    }
+    private void OnDestroy()
+    {
+        if (!applicationQuitting)
+            Observer.Instance.RemoveListener(Observer.InitLevel, InitLevel);
+    }
+    private void OnApplicationQuit()
+    {
+        applicationQuitting = true;
+    }
+    IEnumerator Wait()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        UIManager.Instance.Init();
+        CameraController.Instance.Init();
+        Debug.Log("Wait");
     }
 }

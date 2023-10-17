@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour
     SetEnemyDestination setDestin;
     AtkPlayerWithRay atkPlayerRay;
     DetectPlayerWithRay detectPlayer;
-    public void Init()
+    public void OnEnable()
     {
         speed = stat.speed;
         damage = stat.damage;

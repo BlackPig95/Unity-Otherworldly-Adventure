@@ -18,7 +18,7 @@ public class EnemyControllerWithRay : MonoBehaviour
     bool isRunning = false;
     DetectPlayerWithRay detectPlayer;
 
-    public void Init()
+    public void OnEnable()
     {
         speed = stat.speed;
         damage = stat.damage;
