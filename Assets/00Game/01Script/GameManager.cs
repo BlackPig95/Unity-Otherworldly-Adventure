@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameState
 {
@@ -44,8 +45,6 @@ public class GameManager : Singleton<GameManager>
     }
     void InitLevel(object data = null)
     {
-        gameState = GameState.Play;
-        PauseGame();
         if (currentLevel >= levelPrefab.Count-1)
             currentLevel = -1;
         currentLevel++;
@@ -54,14 +53,16 @@ public class GameManager : Singleton<GameManager>
             Destroy(oldLevel);
             Destroy(_playerController.gameObject); //Avoid bug player not get deleted together with level prefab
         }
-
-        oldLevel = Instantiate(levelPrefab[currentLevel]);
-
-        if (_playerController != null)//Delete old script
-            _playerController = null;
-            _playerController = FindObjectOfType<PlayerController>();
-        
-        StartCoroutine(Wait());
+        StartCoroutine(WaitEndFrame());
+        StartCoroutine(WaitUI());
+    }
+    public IEnumerator LoadingScreen()
+    {
+        gameState = GameState.Pause;
+        PauseGame();
+        yield return new WaitForSecondsRealtime(1f);
+        gameState = GameState.Play;
+        PauseGame();
     }
     private void OnDestroy()
     {
@@ -72,10 +73,19 @@ public class GameManager : Singleton<GameManager>
     {
         applicationQuitting = true;
     }
-    IEnumerator Wait()
+    IEnumerator WaitUI()
     {
         yield return new WaitForSecondsRealtime(0.2f);//Give some time to finish instantiate new level prefab
         UIManager.Instance.Init();
         CameraController.Instance.Init();
+    }
+    IEnumerator WaitEndFrame()
+    {
+        yield return new WaitForEndOfFrame(); //Wait for old level to be completely deleted before instantiate new one
+        oldLevel = Instantiate(levelPrefab[currentLevel]);
+
+        if (_playerController != null)//Delete old script
+            _playerController = null;
+        _playerController = FindObjectOfType<PlayerController>();
     }
 }

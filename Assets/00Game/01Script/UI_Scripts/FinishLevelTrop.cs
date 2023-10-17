@@ -11,9 +11,7 @@ public class FinishLevelTrop : MonoBehaviour
     {
         if (finishedLevelText == null)
         {
-            Debug.Log("Log");
             finishedLevelText = GameObject.Find(CONSTANT.finishLevelText).GetComponentInChildren<Text>(true).gameObject;
-            Debug.Log(finishedLevelText.GetInstanceID());
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
