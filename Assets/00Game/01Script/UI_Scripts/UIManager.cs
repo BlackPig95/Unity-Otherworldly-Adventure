@@ -16,7 +16,7 @@ public class UIManager : Singleton<UIManager>
     public void Init()
     {
         Observer.Instance.AddListener(Observer.FinishLevel, ShowText);
-        Observer.Instance.AddListener(Observer.FinishLevel, (data)=>
+        Observer.Instance.AddListener(Observer.InitLevel, (data)=>
         {
              StartCoroutine(WaitLoadScene());
         });

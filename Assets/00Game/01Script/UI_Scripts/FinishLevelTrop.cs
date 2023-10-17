@@ -19,8 +19,7 @@ public class FinishLevelTrop : MonoBehaviour
         Observer.Instance.Notify(Observer.FinishLevel, finishedLevelText);
         GameManager.Instance.gameState = GameState.Pause;
         GameManager.Instance.PauseGame();
-        Observer.Instance.Notify(Observer.InitLevel);
-        Destroy(this.gameObject);
+        StartCoroutine(WaitFinish());
     }
     private void OnDestroy()
     {
@@ -31,5 +30,10 @@ public class FinishLevelTrop : MonoBehaviour
     {
         applicationQuitting = true;
     }
-
+    IEnumerator WaitFinish()
+    {
+        yield return new WaitForSecondsRealtime(1.0f);
+        Observer.Instance.Notify(Observer.InitLevel);
+        Destroy(this.gameObject);
+    }
 }
