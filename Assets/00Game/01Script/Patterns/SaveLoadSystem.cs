@@ -37,7 +37,6 @@ public class SaveLoadSystem : Singleton<SaveLoadSystem>
     {
         if (!PlayerPrefs.HasKey(CONSTANT.prefSave))
         {
-            Debug.Log("Nothing");
             SaveData start = JsonUtility.FromJson<SaveData>(startJSON);
             player.transform.position = startData.Pos;
             GameManager.Instance.playerController.playerHP = startData.Hp;

@@ -46,6 +46,8 @@ public class GameManager : Singleton<GameManager>
     {
         gameState = GameState.Play;
         PauseGame();
+        if (currentLevel > levelPrefab.Count)
+            currentLevel = -1;
         currentLevel++;
         if(oldLevel!= null)
         {
@@ -55,8 +57,10 @@ public class GameManager : Singleton<GameManager>
 
         oldLevel = Instantiate(levelPrefab[currentLevel]);
 
-        if (_playerController == null)
+        if (_playerController != null)//Delete old script
+            _playerController = null;
             _playerController = FindObjectOfType<PlayerController>();
+        
         StartCoroutine(Wait());
     }
     private void OnDestroy()
@@ -70,9 +74,8 @@ public class GameManager : Singleton<GameManager>
     }
     IEnumerator Wait()
     {
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(0.2f);//Give some time to finish instantiate new level prefab
         UIManager.Instance.Init();
         CameraController.Instance.Init();
-        Debug.Log("Wait");
     }
 }
