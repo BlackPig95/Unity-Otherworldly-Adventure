@@ -50,7 +50,7 @@ public class GameManager : Singleton<GameManager>
         if(oldLevel!= null)
         {
             Destroy(oldLevel);
-            Destroy(_playerController);
+            Destroy(_playerController.gameObject); //Avoid bug player not get deleted together with level prefab
         }
 
         oldLevel = Instantiate(levelPrefab[currentLevel]);

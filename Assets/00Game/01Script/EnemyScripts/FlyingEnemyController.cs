@@ -42,6 +42,8 @@ public class FlyingEnemyController : MonoBehaviour
     }
     void RotateEnemy()
     {
+        if (destination.x == 0)
+            return;
         Vector2 scale = Vector2.one;
         scale.x = -destination.normalized.x * 1 / Mathf.Abs(destination.normalized.x); //Scale magnitude always 1
         this.transform.localScale = scale;

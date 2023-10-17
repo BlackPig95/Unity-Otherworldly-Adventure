@@ -60,6 +60,8 @@ public class EnemyController : MonoBehaviour
     }
     void RotateEnemy()
     {
+        if (destination.x == 0) //Avoid bug NaN when init level
+            return;
         Vector2 scale = Vector2.one;
         scale.x = -destination.normalized.x * 1/Mathf.Abs(destination.normalized.x);
         this.transform.localScale = scale;

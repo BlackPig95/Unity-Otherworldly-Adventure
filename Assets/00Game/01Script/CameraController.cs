@@ -16,6 +16,7 @@ public class CameraController : Singleton<CameraController>
     // Update is called once per frame
     void LateUpdate()
     {
+        if(playerPos != null) 
          this.transform.position = playerPos.transform.position + offset;
     }
 }
