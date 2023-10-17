@@ -46,7 +46,7 @@ public class GameManager : Singleton<GameManager>
     {
         gameState = GameState.Play;
         PauseGame();
-        if (currentLevel > levelPrefab.Count)
+        if (currentLevel >= levelPrefab.Count-1)
             currentLevel = -1;
         currentLevel++;
         if(oldLevel!= null)
