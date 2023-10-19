@@ -60,13 +60,13 @@ public class UIManager : Singleton<UIManager>
         {
             playButton.image.color = Color.blue;
             GameManager.Instance.gameState = GameState.Pause;
-            Observer.Instance.Notify(Observer.PauseButton);
+            GameManager.Instance.PauseGame();
         }
         else if (GameManager.Instance.gameState == GameState.Pause)
         {
             playButton.image.color = Color.white;
             GameManager.Instance.gameState = GameState.Play;
-            Observer.Instance.Notify(Observer.PauseButton);
+            GameManager.Instance.PauseGame();
         }
     }
     public void ChangeVolume()
