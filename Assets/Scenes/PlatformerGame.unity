@@ -354,10 +354,11 @@ MonoBehaviour:
   volumeSlider: {fileID: 0}
   volumeButton: {fileID: 0}
   playButton: {fileID: 0}
+  guidingText: {fileID: 0}
   loadingBar: {fileID: 1555807280}
   loadingScreen:
-  - {fileID: 1233276828}
   - {fileID: 109305159}
+  - {fileID: 1233276828}
   loadingCanvas: {fileID: 1354580789}
 --- !u!114 &943675556
 MonoBehaviour:
@@ -1039,7 +1040,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1988445888}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -53.668335, y: -1.5355043, z: -10}
+  m_LocalPosition: {x: -53.03, y: -1.5355043, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

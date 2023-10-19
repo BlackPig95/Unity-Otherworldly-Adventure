@@ -8,6 +8,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] Slider volumeSlider;
     [SerializeField] Button volumeButton;
     [SerializeField] Button playButton;
+    [SerializeField] GameObject guidingText;
     //Load scene
     [SerializeField] Slider loadingBar;
     [SerializeField] List<Image> loadingScreen;
@@ -16,10 +17,16 @@ public class UIManager : Singleton<UIManager>
     public void Init()
     {
         Observer.Instance.AddListener(Observer.FinishLevel, ShowText);
-        Observer.Instance.AddListener(Observer.InitLevel, (data)=>
+        Observer.Instance.AddListener(Observer.FinishLevel, (data) =>
         {
-             StartCoroutine(WaitLoadScene());
+            StartCoroutine(WaitLoadScene());
         });
+        Observer.Instance.AddListener(Observer.GuideTextOff, (data) =>
+        {
+            guidingText.SetActive(false);
+        });
+        if (guidingText == null)
+            guidingText = GameObject.Find(CONSTANT.guidingText);
         if (volumeButton == null)
             volumeButton = GameObject.Find(CONSTANT.volumeButton).GetComponent<Button>();
         if (volumeSlider == null)
@@ -31,15 +38,17 @@ public class UIManager : Singleton<UIManager>
     }
     IEnumerator WaitLoadScene()
     {
+        yield return new WaitForSecondsRealtime(1f);
         float waitTime = 0f;
         StartCoroutine(GameManager.Instance.LoadingScreen());//Fake loading screen to transit better
         loadingCanvas.SetActive(true);
-        for(int i = 0; i < loadingScreen.Count; i++)
+        if (guidingText != null)
+            guidingText.SetActive(false);
+        for (int i = 0; i < loadingScreen.Count; i++)
         {
-           if(i== GameManager.Instance.currentLevel)
+            if (i == GameManager.Instance.currentLevel)
                 loadingScreen[i].gameObject.SetActive(true);
-           else loadingScreen[i].gameObject.SetActive(false);
-            
+            else loadingScreen[i].gameObject.SetActive(false);
         }
         while (waitTime <= 1f)
         {
@@ -48,6 +57,8 @@ public class UIManager : Singleton<UIManager>
             yield return null;
         }
         loadingCanvas.SetActive(false);
+        if (guidingText != null)
+            guidingText.SetActive(true);
     }
     public void ShowText(object data)
     {
@@ -60,13 +71,13 @@ public class UIManager : Singleton<UIManager>
         {
             playButton.image.color = Color.blue;
             GameManager.Instance.gameState = GameState.Pause;
-            Observer.Instance.Notify(Observer.PauseButton);
+            GameManager.Instance.PauseGame();
         }
         else if (GameManager.Instance.gameState == GameState.Pause)
         {
             playButton.image.color = Color.white;
             GameManager.Instance.gameState = GameState.Play;
-            Observer.Instance.Notify(Observer.PauseButton);
+            GameManager.Instance.PauseGame();
         }
     }
     public void ChangeVolume()

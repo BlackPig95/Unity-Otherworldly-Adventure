@@ -14,6 +14,7 @@ public static class CONSTANT
     public readonly static string volumeSlider = "VolumeSlider";
     public readonly static string playButton = "PlayButton";
     public readonly static string finishLevelText = "FinishLevelText";
+    public readonly static string guidingText = "Guidance";
      /* control player jump double jump wall jump slide, can pick player
       * enemy behaviour
       * map design: enemy, bonus, boss, stage pass, trap, player can shoot, UI, pick level, JSON firebase */

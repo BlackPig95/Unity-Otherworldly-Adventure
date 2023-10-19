@@ -19,7 +19,7 @@ public class FinishLevelTrop : MonoBehaviour
         Observer.Instance.Notify(Observer.FinishLevel, finishedLevelText);
         GameManager.Instance.gameState = GameState.Pause;
         GameManager.Instance.PauseGame();
-        StartCoroutine(WaitFinish());
+        StartCoroutine(WaitFinish()); //Give some pause time before start transit
     }
     private void OnDestroy()
     {

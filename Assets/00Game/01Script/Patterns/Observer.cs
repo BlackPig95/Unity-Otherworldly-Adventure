@@ -10,7 +10,7 @@ public class Observer : Singleton<Observer>
     public static string FinishLevel = "FinishLevel";
     public static string SavePoint = "Saved";
     public static string InitLevel = "InitLevel";
-    public static string PauseButton = "PauseButtonPressed";
+    public static string GuideTextOff = "TurnOffGuidingText";
     #endregion
 
     public void AddListener(string key, Action<object> callBack)
