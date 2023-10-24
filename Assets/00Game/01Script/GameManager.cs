@@ -15,7 +15,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] List<GameObject> levelPrefab = new List<GameObject>();
     [SerializeField] private PlayerController _playerController;
     private bool applicationQuitting = false;
-
+    public Canvas UIcanvas;
     public PlayerController playerController
     {
         get
@@ -29,6 +29,7 @@ public class GameManager : Singleton<GameManager>
     private void Awake()
     {
         Observer.Instance.AddListener(Observer.InitLevel, InitLevel);
+        UIcanvas.gameObject.SetActive(false);
     }
     // Start is called before the first frame update
     void Start()
@@ -87,5 +88,6 @@ public class GameManager : Singleton<GameManager>
         if (_playerController != null)//Delete old script
             _playerController = null;
         _playerController = FindObjectOfType<PlayerController>();
+        UIcanvas.gameObject.SetActive(true); //Make sure all other components are loaded before UI components
     }
 }
