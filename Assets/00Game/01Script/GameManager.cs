@@ -55,7 +55,7 @@ public class GameManager : Singleton<GameManager>
             Destroy(_playerController.gameObject); //Avoid bug player not get deleted together with level prefab
         }
         StartCoroutine(WaitEndFrame());
-        StartCoroutine(WaitUI());
+        StartCoroutine(WaitCam());
     }
     public IEnumerator LoadingScreen()
     {
@@ -74,7 +74,7 @@ public class GameManager : Singleton<GameManager>
     {
         applicationQuitting = true;
     }
-    IEnumerator WaitUI()
+    IEnumerator WaitCam()
     {
         yield return new WaitForSecondsRealtime(0.2f);//Give some time to finish instantiate new level prefab
         UIManager.Instance.Init();

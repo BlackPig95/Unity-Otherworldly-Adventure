@@ -8,14 +8,21 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] Slider volumeSlider;
     [SerializeField] Button volumeButton;
     [SerializeField] Button playButton;
+    [SerializeField] Text finishedLevelText;
     //Load scene
     [SerializeField] Slider loadingBar;
     [SerializeField] List<Image> loadingScreen;
     [SerializeField] GameObject loadingCanvas;
     // Start is called before the first frame update
+    private void Start()
+    {
+        volumeButton.onClick.AddListener(ChangeVolume);
+        playButton.onClick.AddListener(PlayOrPause);
+    }
     public void Init()
     {
         Observer.Instance.AddListener(Observer.FinishLevel, ShowText);
+        Observer.Instance.AddListener(Observer.InitLevel, HideText);
         Observer.Instance.AddListener(Observer.InitLevel, (data)=>
         {
              StartCoroutine(WaitLoadScene());
@@ -26,8 +33,7 @@ public class UIManager : Singleton<UIManager>
             volumeSlider = GameObject.Find(CONSTANT.volumeSlider).GetComponentInChildren<Slider>(true);
         if (playButton == null)
             playButton = GameObject.Find(CONSTANT.playButton).GetComponent<Button>();
-        volumeButton.onClick.AddListener(ChangeVolume);
-        playButton.onClick.AddListener(PlayOrPause);
+       
     }
     IEnumerator WaitLoadScene()
     {
@@ -51,8 +57,11 @@ public class UIManager : Singleton<UIManager>
     }
     public void ShowText(object data)
     {
-        GameObject textObject = (GameObject)data;
-        textObject.SetActive(true);
+        finishedLevelText.gameObject.SetActive(true);
+    }
+    public void HideText(object data)
+    {
+        finishedLevelText.gameObject.SetActive(false);
     }
     public void PlayOrPause()
     {
