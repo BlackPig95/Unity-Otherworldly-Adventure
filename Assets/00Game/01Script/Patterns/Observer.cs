@@ -10,7 +10,6 @@ public class Observer : Singleton<Observer>
     public static string FinishLevel = "FinishLevel";
     public static string SavePoint = "Saved";
     public static string InitLevel = "InitLevel";
-    public static string InitComponent = "InitOtherComponent";
     #endregion
 
     public void AddListener(string key, Action<object> callBack)

@@ -8,12 +8,9 @@ public class PlayerHeart : MonoBehaviour
     [SerializeField] Sprite fullHeart;
     [SerializeField] Sprite emptyHeart;
     [SerializeField] Image[] hearts;
-    private int health;
+    public int health;
+
     private void Start()
-    {
-        Observer.Instance.AddListener(Observer.InitComponent, Init);
-    }
-    public void Init(object data = null)
     {
         if(hearts == null)
         hearts = this.GetComponentsInChildren<Image>();
