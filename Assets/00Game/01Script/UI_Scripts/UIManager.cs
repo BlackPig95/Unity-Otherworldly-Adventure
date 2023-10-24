@@ -39,7 +39,6 @@ public class UIManager : Singleton<UIManager>
            if(i== GameManager.Instance.currentLevel)
                 loadingScreen[i].gameObject.SetActive(true);
            else loadingScreen[i].gameObject.SetActive(false);
-            
         }
         while (waitTime <= 1f)
         {
