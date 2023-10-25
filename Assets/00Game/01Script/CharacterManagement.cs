@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterManagement : MonoBehaviour
+public class CharacterManagement : Singleton<CharacterManagement>
 {
     [SerializeField] CharacterDatabase characters;
     [SerializeField] Image selectedPlayer;
+    [SerializeField] GameObject playerSelectCanvas;
+    [SerializeField] GameObject gameManager;
     int selectedIndex = 0;
     private void Start()
     {
@@ -14,21 +17,28 @@ public class CharacterManagement : MonoBehaviour
     }
     public void NextOption()
     {
-        Debug.Log("Next");
         selectedIndex++;
         if (selectedIndex >= characters.characterCount)
             selectedIndex = 0;
-        Debug.Log("NExt  " + selectedIndex);
         UpdateCharacter();
     }
     public void PreviousOption()
     {
-        Debug.Log("Previous");
         selectedIndex--;
         if (selectedIndex < 0)
             selectedIndex = characters.characterCount - 1;
-        Debug.Log("Back  " + selectedIndex);
         UpdateCharacter();
+    }
+    public AnimatorController SelectPlayer()
+    {
+       // PlayerPrefs.SetInt("PlayerSelected", selectedIndex);
+        AnimatorController playerAnimator = characters.GetAnimator(selectedIndex);
+        return playerAnimator;
+    }
+    public void OkClicked()
+    {
+        gameManager.SetActive(true);
+        playerSelectCanvas.SetActive(false);
     }
     public void UpdateCharacter()
     {

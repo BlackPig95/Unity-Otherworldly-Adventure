@@ -14,6 +14,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject oldLevel;
     [SerializeField] List<GameObject> levelPrefab = new List<GameObject>();
     [SerializeField] private PlayerController _playerController;
+    [SerializeField] GameObject backgroundMusic;
     private bool applicationQuitting = false;
     public Canvas UIcanvas;
     public PlayerController playerController
@@ -89,5 +90,8 @@ public class GameManager : Singleton<GameManager>
             _playerController = null;
         _playerController = FindObjectOfType<PlayerController>();
         UIcanvas.gameObject.SetActive(true); //Make sure all other components are loaded before UI components
+        _playerController.GetComponentInChildren<Animator>().runtimeAnimatorController 
+            = CharacterManagement.Instance.SelectPlayer();
+        backgroundMusic.SetActive(true);
     }
 }
