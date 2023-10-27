@@ -15,12 +15,6 @@ public class BossController : MonoBehaviour
         playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void BossJump()
     {
         if (!canJump)

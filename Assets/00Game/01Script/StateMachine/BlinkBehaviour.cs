@@ -10,13 +10,7 @@ public class BlinkBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         controller = animator.GetComponent<BossController>();
-        animator.SetBool("BossBlink", false);
-    }
-
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-
+        animator.SetBool(CONSTANT.bossBlink, false);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
