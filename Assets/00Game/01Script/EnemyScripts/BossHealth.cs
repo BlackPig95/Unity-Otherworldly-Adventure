@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BossHealth : MonoBehaviour, ICanGetHit
 {
     [SerializeField] Stats stat;
+    [SerializeField] GameObject restartButton;
     int health;
     int currentHealth;
     [SerializeField] Slider healthBar;
@@ -52,7 +54,16 @@ public class BossHealth : MonoBehaviour, ICanGetHit
     void CheckDead()
     {
         if (this.health <= 0)
+        {
+            GameManager.Instance.gameState = GameState.Pause;
+            GameManager.Instance.PauseGame();
+            restartButton.SetActive(true);
             Destroy(this.gameObject);
+        }
+    }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(0);
     }
     public void BossAnim()
     {
@@ -69,6 +80,7 @@ public class BossHealth : MonoBehaviour, ICanGetHit
             bullet.gameObject.SetActive(true);
             StartCoroutine(BulletLifeTime(bullet));
             bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(i * 5f, 10f);
+            bullet.transform.parent = this.transform;
         }
     }
     IEnumerator BulletLifeTime(GameObject bullet)

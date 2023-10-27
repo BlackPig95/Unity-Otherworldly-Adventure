@@ -45,12 +45,15 @@ public class GameManager : Singleton<GameManager>
         else if (gameState == GameState.Pause)
             Time.timeScale = 0.0f;
     }
-    void InitLevel(object data = null)
+    public void InitLevel(object data = null)
     {
-        if (currentLevel >= levelPrefab.Count-1)
-            currentLevel = -1;
-        currentLevel++;
-        if(oldLevel!= null)
+        if (data != null)
+        {
+            currentLevel += (int)data;
+        }
+        else
+            currentLevel++;
+        if (oldLevel != null)
         {
             Destroy(oldLevel);
             Destroy(_playerController.gameObject); //Avoid bug player not get deleted together with level prefab
@@ -90,7 +93,7 @@ public class GameManager : Singleton<GameManager>
             _playerController = null;
         _playerController = FindObjectOfType<PlayerController>();
         UIcanvas.gameObject.SetActive(true); //Make sure all other components are loaded before UI components
-        _playerController.GetComponentInChildren<Animator>().runtimeAnimatorController 
+        _playerController.GetComponentInChildren<Animator>().runtimeAnimatorController
             = CharacterManagement.Instance.SelectPlayer();
         backgroundMusic.SetActive(true);
     }

@@ -6,16 +6,14 @@ public class SaveLoadSystem : Singleton<SaveLoadSystem>
 {
      int saveHp;
      Vector2 savePos;
-    SaveData startData;
-    string startJSON;
+  //  SaveData startData;
     public void Init()
     {
-        startData = new SaveData();
+    /*    startData = new SaveData();
         startData.Hp = GameManager.Instance.playerController.playerHP;
-        startData.Pos = GameManager.Instance.playerController.transform.position;
+        startData.Pos = GameManager.Instance.playerController.transform.position;*/
         if (PlayerPrefs.HasKey(CONSTANT.prefSave))
             PlayerPrefs.DeleteKey(CONSTANT.prefSave); //No key should exist before player touch save point
-        startJSON = JsonUtility.ToJson(startData);
     }
     public void GetSaveInfo(object player)
     {
@@ -37,8 +35,10 @@ public class SaveLoadSystem : Singleton<SaveLoadSystem>
     {
         if (!PlayerPrefs.HasKey(CONSTANT.prefSave))
         {
-            player.transform.position = startData.Pos;
-            GameManager.Instance.playerController.playerHP = startData.Hp;
+            /*  player.transform.position = startData.Pos;
+              GameManager.Instance.playerController.playerHP = startData.Hp;*/
+            Observer.Instance.Notify(Observer.ReloadLevel);
+            GameManager.Instance.InitLevel(0);
             return;
         }
 

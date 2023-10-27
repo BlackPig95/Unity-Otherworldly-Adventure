@@ -14,7 +14,7 @@ public class BossController : MonoBehaviour
     void Start()
     {
         rigi = GetComponent<Rigidbody2D>();
-        playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        playerPos = GameManager.Instance.playerController.transform;
         atkPlayer = GetComponent<AtkPlayerWithRay>();
     }
 

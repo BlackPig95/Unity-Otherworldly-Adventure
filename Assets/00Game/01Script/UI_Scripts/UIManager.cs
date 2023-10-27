@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
@@ -9,6 +10,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] Button volumeButton;
     [SerializeField] Button playButton;
     [SerializeField] Text finishedLevelText;
+    
     //Load scene
     [SerializeField] Slider loadingBar;
     [SerializeField] List<Image> loadingScreen;

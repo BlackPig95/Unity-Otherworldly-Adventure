@@ -11,6 +11,7 @@ public class SetEnemyDestination : MonoBehaviour
     private void Start()
     {
         Observer.Instance.AddListener(Observer.FinishLevel, Destroy);
+        Observer.Instance.AddListener(Observer.ReloadLevel, Destroy);
         startPoint.transform.parent = null;
         endPoint.transform.parent = null;
         finishPoint = startPoint.transform.position;
@@ -33,7 +34,10 @@ public class SetEnemyDestination : MonoBehaviour
     void OnDestroy()
     {
         if (!applicationQuitting)
+        {
             Observer.Instance.RemoveListener(Observer.FinishLevel, Destroy);
+            Observer.Instance.RemoveListener(Observer.ReloadLevel, Destroy);
+        }
     }
     private void OnApplicationQuit()
     {

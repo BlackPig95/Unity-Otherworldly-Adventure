@@ -17,6 +17,8 @@ public class ObjectPooling : Singleton<ObjectPooling>
 
         foreach (GameObject g in listObj)
         {
+            if (g == null)
+                continue;
             if (g.activeSelf)
                 continue;
             return g;
