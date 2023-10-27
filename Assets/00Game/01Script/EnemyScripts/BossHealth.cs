@@ -58,11 +58,12 @@ public class BossHealth : MonoBehaviour, ICanGetHit
             GameManager.Instance.gameState = GameState.Pause;
             GameManager.Instance.PauseGame();
             restartButton.SetActive(true);
-            Destroy(this.gameObject);
         }
     }
     public void RestartGame()
     {
+        GameManager.Instance.gameState = GameState.Play;
+        GameManager.Instance.PauseGame();
         SceneManager.LoadScene(0);
     }
     public void BossAnim()

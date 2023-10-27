@@ -83,6 +83,7 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSecondsRealtime(0.2f);//Give some time to finish instantiate new level prefab
         UIManager.Instance.Init();
         CameraController.Instance.Init();
+        BGMController.Instance.Init();
     }
     IEnumerator WaitEndFrame()
     {

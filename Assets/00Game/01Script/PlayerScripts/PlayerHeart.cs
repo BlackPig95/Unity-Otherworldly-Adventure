@@ -17,6 +17,7 @@ public class PlayerHeart : MonoBehaviour
     }
     private void Update()
     {
+        if(GameManager.Instance.playerController != null)
         health = GameManager.Instance.playerController.playerHP;
         for (int i = 0; i < hearts.Length; i++)
         {
