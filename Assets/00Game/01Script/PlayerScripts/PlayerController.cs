@@ -153,6 +153,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
                 canDoubleJump = true;
                 isGrounded = false;
                 isJumping = true;
+                AudioManager.Instance.PlayJumpSound();
                 return;
             }
             if (canDoubleJump)
@@ -161,6 +162,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
                 canDoubleJump = false;
                 rigi.AddForce(jumpForce * Vector2.up * 0.8f, ForceMode2D.Impulse);
                 isDoubleJumping = true;
+                AudioManager.Instance.PlayJumpSound();
                 return;
             }
         }
@@ -172,6 +174,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
             rigi.AddForce(new Vector2(1500f * -this.transform.localScale.x, 550f)); //Force mode Impulse can't work??
             wallJumpCounter = 0.2f;
             isJumping = true;
+            AudioManager.Instance.PlayJumpSound();
             return;
         }
     }
@@ -204,6 +207,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
                 {
                     isGetHit.GetHit(this.damage);
                     rigi.AddForce(new Vector2(0f, 200f));
+                    AudioManager.Instance.PlayHitSound();
                 }
                 return; //Avoid bug cause damage multiple times
             }
@@ -316,7 +320,7 @@ public class PlayerController : MonoBehaviour, ICanGetHit
     {
         if (isInvicible)
             return;
-
+        AudioManager.Instance.PlayHitSound();
         this.playerHP -= dmg;
         isGettingHit = true;
         rigi.velocity = Vector2.zero;
