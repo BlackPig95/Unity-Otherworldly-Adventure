@@ -5,14 +5,17 @@ using UnityEngine;
 public class BossController : MonoBehaviour
 {
     public bool canJump = true, isGrounded = true;
-    float maxHeight = 6f, maxRange = 4f, g = 9.81f;
+    float maxHeight = 10f, maxRange = 8f, g = 9.81f;
+    int damage = 1;
     public Transform playerPos;
     public Rigidbody2D rigi;
+    AtkPlayerWithRay atkPlayer;
     // Start is called before the first frame update
     void Start()
     {
         rigi = GetComponent<Rigidbody2D>();
         playerPos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        atkPlayer = GetComponent<AtkPlayerWithRay>();
     }
 
     public void BossJump()
@@ -52,5 +55,6 @@ public class BossController : MonoBehaviour
         {
             isGrounded = true;
         }
+        atkPlayer.AttackPlayer(damage);
     }
 }
