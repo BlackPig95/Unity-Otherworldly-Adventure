@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor.Animations;
+using UnityEditor;
+#endif
 
 public class CharacterManagement : Singleton<CharacterManagement>
 {
